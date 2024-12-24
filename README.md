@@ -139,7 +139,7 @@ For more detailed usage, please refer to the code in the `/example/lib/main.dart
 
 ## 支持和社区 Support and Community
 
-- [Gitee Discussions](https://gitee.com/peiduo_734386_admin/pd_load_state/tree/main/)
+- [Gitee Discussions](https://gitee.com/peiduo_734386_admin/pd_load_state/tree/master/)
 
 ## 许可证 License
 
