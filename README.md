@@ -1,10 +1,9 @@
-
 # pd_load_state
 
-这是一个针对网络请求的不同状态对应的UI页面封装, 
-对某一个`widget`快速添加不同请求状态的UI页面，方便快速开发。
+这是一个针对网络请求的不同状态对应的 UI 页面封装,
+对某一个`widget`快速添加不同请求状态的 UI 页面，方便快速开发。
 
-This is a UI page encapsulation that corresponds to different states of network requests, 
+This is a UI page encapsulation that corresponds to different states of network requests,
 allowing for quick addition of UI pages with different request states to a certain 'widget' for easy and rapid development.
 
 ## 安装 Installation
@@ -17,7 +16,9 @@ To use this package, add the following to your `pubspec.yaml` file:
 dependencies:
   pd_load_state: ^<last version>
 ```
-执行   implement 
+
+执行 implement
+
 ```bash
 flutter pub get
 ```
@@ -38,6 +39,7 @@ import 'package:pd_load_state/pd_load_state.dart';
 简单的使用
 
 Simple use
+
 ```dart
 // 如果想让这个组件展示加载状态，可以按照下面的方式实现。
 class SimpleExample extends StatefulWidget {
@@ -88,6 +90,7 @@ class _SimpleExampleState extends State<SimpleExample> {
 组件状态控制对象说明
 
 Description of Component State Control Objects
+
 ```dart
 // 初始化组件状态控制对象
 // 控制对象默认会执行加载中状态.
@@ -102,11 +105,13 @@ loadState.identifier;
 // 为`true`时, 每次调用函数`loadState.success();`都会刷新[PDLoadStateLayout]包裹的组件
 loadState.isRefreshSubviews;
 ```
+
 `PDLoadState` 是一个组件状态控制对象，用来控制组件的状态切换。
 
 如何切换页面的不同状态.
 
 How to switch between different states of a page
+
 ```dart
 // 调用函数切换
 
@@ -132,12 +137,9 @@ loadState.state = PDLoadStateStatus.reload;// 重新加载
 
 For more detailed usage, please refer to the code in the `/example/lib/main.dart`.
 
-
 ## 支持和社区 Support and Community
 
-- [GitHub Discussions](https://github.com/yourusername/flutter_tbxt/discussions)
-
-- [Join our Discord server](https://discord.gg/yourserver)
+- [Gitee Discussions](https://gitee.com/peiduo_734386_admin/pd_load_state/tree/main/)
 
 ## 许可证 License
 

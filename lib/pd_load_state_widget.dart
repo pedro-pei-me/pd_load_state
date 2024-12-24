@@ -1,4 +1,4 @@
-part of pd_load_state;
+part of 'pd_load_state.dart';
 
 /// loadingWidget: 加载中的视图
 // ignore: must_be_immutable
@@ -130,14 +130,6 @@ class PDLoadStateDefaultWidgets {
             ),
             const SizedBox(height: 33),
             ElevatedButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-                backgroundColor: MaterialStateProperty.all(Colors.blue),
-              ),
               onPressed: errorRetry,
               child: Text(
                 PdLoadStateConfigure.instance.defaultErrorButtonText,

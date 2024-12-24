@@ -1,4 +1,4 @@
-part of pd_load_state;
+part of 'pd_load_state.dart';
 
 enum PDLoadStateEnum {
   /// 加载成功

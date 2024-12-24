@@ -1,4 +1,4 @@
-part of pd_load_state;
+part of 'pd_load_state.dart';
 
 /// 网络数据 省缺页
 /// 根据不同状态来展示不同的视图
