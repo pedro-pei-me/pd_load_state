@@ -25,6 +25,7 @@ class PDLoadState {
         isRefreshSubviews = isRefreshSubviews ?? true;
 
   /// 控件标识， 尽可能唯一
+  /// 用来区别不同的组件对象, 避免刷新错误.
   final String identifier;
 
   /// 展示在错误视图上的信息
@@ -37,6 +38,7 @@ class PDLoadState {
   /// widget的状态， 默认是加载中
   PDLoadStateEnum _status;
 
+  /// 获取当前状态 只读.
   PDLoadStateEnum get status => _status;
 
   /// 监听 setter 方法来刷新UI 或者调用 updateBy 函数刷新都可以
