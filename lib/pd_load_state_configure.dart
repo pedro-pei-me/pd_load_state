@@ -1,8 +1,8 @@
 part of 'pd_load_state.dart';
 
 /// 加载状态变更回调
-typedef LoadStateChanged = void Function(PDLoadStateEnum stateEnum);
-typedef ErrorWidgetBuilder = Widget Function(BuildContext context, String errorMessage);
+typedef PDLoadStateChanged = void Function(PDLoadStateEnum stateEnum);
+typedef PDErrorWidgetBuilder = Widget Function(BuildContext context, String errorMessage);
 
 class PdLoadStateConfigure {
   // 使用 late 和 final 确保实例只被创建一次

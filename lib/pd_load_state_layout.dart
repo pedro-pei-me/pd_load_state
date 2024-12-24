@@ -15,13 +15,13 @@ class PDLoadStateLayout extends StatefulWidget {
 
   /// 当 loadState 中的 state 发生改变时（赋相同的值也会）触发的回调
   /// 参数为当前的状态，PDLoadStateEnum 枚举中的一种
-  final LoadStateChanged? stateChanged;
+  final PDLoadStateChanged? stateChanged;
 
   /// 加载错误页面中按钮点击事件回调
   final VoidCallback? errorRetry;
 
   /// 加载错误视图 优先级最高
-  final ErrorWidgetBuilder? errorWidgetBuilder;
+  final PDErrorWidgetBuilder? errorWidgetBuilder;
 
   /// 空数据事件处理 空数据暂时没有点击事件
   final VoidCallback? emptyRetry;
