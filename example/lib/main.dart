@@ -11,35 +11,35 @@ void main() {
   runApp(const MyApp());
 }
 
-/// 请在使用前配置好状态页面UI
+/// 请在使用前配置好状态页面UI, 配置一次即可
 /// 可选 不配置内部有默认的UI(比较丑)
+/// 通过下面方式配置的UI优先级低于通过[PDLoadStateLayout]类中参数`errorWidgetBuilder`设置的UI
 void initPdLoadStateWidgets() {
-  /// 自定义错误页面, 需要特定的 Widget [PDCustomErrorWidgetBuilder]
-  /// 优先级中等
-  PdLoadStateConfigure.instance.errorWidget = PDCustomErrorWidgetBuilder(
-    builder: (context, error, onRetry) {
-      return SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(error),
-              ElevatedButton(
-                onPressed: onRetry,
-                child: const Text(
-                  '重试',
-                  style: TextStyle(color: Colors.black),
-                ),
-              )
-            ],
-          ),
+  /// 自定义错误页面 优先级中等
+  PdLoadStateConfigure.instance.errorWidgetBuilder = (context, error, onRetry) {
+    debugPrint('errorWidgetBuilder');
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(error),
+            ElevatedButton(
+              onPressed: onRetry,
+              child: const Text(
+                '重试',
+                style: TextStyle(color: Colors.black),
+              ),
+            )
+          ],
         ),
-      );
-    },
-  );
+      ),
+    );
+  };
   // 自定义加载中页面 优先级中等
-  PdLoadStateConfigure.instance.loadingWidget = Builder(builder: (context) {
+  PdLoadStateConfigure.instance.loadingWidgetBuilder = (context) {
+    debugPrint('loadingWidgetBuilder');
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: const Center(
@@ -52,7 +52,16 @@ void initPdLoadStateWidgets() {
         ),
       ),
     );
-  });
+  };
+
+  PdLoadStateConfigure.instance.emptyWidgetBuilder = (context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: const Center(
+        child: Text('暂无数据'),
+      ),
+    );
+  };
 }
 
 class MyApp extends StatelessWidget {
@@ -61,12 +70,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'PDLoadState Example Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Simple Example Demo'),
     );
   }
 }
@@ -90,7 +99,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void network() {
     /// 模仿一次网络请求。
+    debugPrint('network send');
     Future.delayed(const Duration(seconds: 3)).then((_) {
+      debugPrint('network response');
       if (Random().nextBool()) {
         // 模拟请求成功, loadState.success() 会让页面回到加载成功状态
         loadState.success();
@@ -140,48 +151,49 @@ class _MyHomePageState extends State<MyHomePage> {
 
         /// 可选 优先级最高
         /// 部分页面需要独特的错误视图，可以在这里自定义。
-        errorWidgetBuilder: (BuildContext context, String errorMessage) {
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(errorMessage),
-                ElevatedButton(
-                  onPressed: loadState.loading,
-                  child: const Text(
-                    '重试',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                )
-              ],
-            ),
-          );
-        },
+        // errorWidgetBuilder: (BuildContext context, String errorMessage, _) {
+        //   return Center(
+        //     child: Column(
+        //       mainAxisSize: MainAxisSize.min,
+        //       children: [
+        //         Text(errorMessage),
+        //         ElevatedButton(
+        //           onPressed: loadState.loading,
+        //           child: const Text(
+        //             '重试',
+        //             style: TextStyle(color: Colors.black),
+        //           ),
+        //         )
+        //       ],
+        //     ),
+        //   );
+        // },
 
         /// 可选 优先级最高
         /// 部分页面需要独特的空数据视图，可以在这里自定义。
-        emptyWidgetBuilder: (context) {
-          return const Center(
-            child: Text('empty'),
-          );
-        },
+        // emptyWidgetBuilder: (context) {
+        //   return const Center(
+        //     child: Text('empty'),
+        //   );
+        // },
 
         /// 可选 优先级最高
         /// 部分页面需要独特的加载中视图，可以在这里自定义。
-        loadingWidgetBuilder: (context) {
-          return const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('loading...'),
-              ],
-            ),
-          );
-        },
+        // loadingWidgetBuilder: (context) {
+        //   return const Center(
+        //     child: Column(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       mainAxisSize: MainAxisSize.min,
+        //       children: [
+        //         Text('loading...'),
+        //       ],
+        //     ),
+        //   );
+        // },
 
         /// 必传 加载成功后展示的组件
         builder: (context) {
+          debugPrint('loadState.success() builder');
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -201,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: loadState.loading,
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.refresh),
       ),
     );
   }
@@ -220,7 +232,6 @@ class _SimpleExampleState extends State<SimpleExample> {
   // 初始化组件状态控制对象
   // 控制对象默认会执行加载中状态.
   final PDLoadState loadState = PDLoadState('SimpleExample');
-
 
   @override
   Widget build(BuildContext context) {

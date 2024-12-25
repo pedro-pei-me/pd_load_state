@@ -1,8 +1,19 @@
 part of 'pd_load_state.dart';
 
 /// 加载状态变更回调
-typedef PDLoadStateChanged = void Function(PDLoadStateEnum stateEnum);
-typedef PDErrorWidgetBuilder = Widget Function(BuildContext context, String errorMessage);
+typedef PDLoadStateChanged = void Function(
+  // 当前状态
+  PDLoadStateEnum stateEnum,
+);
+typedef PDErrorWidgetBuilder = Widget Function(
+  // 上下文
+  BuildContext context,
+  // 错误信息
+  String errorMessage,
+  // 重试回调, 于错误页面中点击重试按钮时调用
+  // 创建[PDLoadStateLayout]时传入`errorRetry`回调
+  VoidCallback? onRetry,
+);
 
 class PdLoadStateConfigure {
   // 使用 late 和 final 确保实例只被创建一次
@@ -15,6 +26,9 @@ class PdLoadStateConfigure {
   static PdLoadStateConfigure get instance {
     return _instance;
   }
+
+  /// 背景颜色
+  Color? backgroundColor;
 
   /// 默认加载中提示文本
   String defaultLoadingText = '拼命加载中...';
@@ -31,15 +45,63 @@ class PdLoadStateConfigure {
   /// 默认加载完成提示文本
   String defaultCompletionText = '成功！';
 
-  /// 自定义加载中的页面  优先级中等
-  Widget? loadingWidget;
-
-  /// 自定义空数据页面  优先级中等
-  Widget? emptyWidget;
-
   /// 自定义错误页面  优先级中等
-  PDCustomErrorWidgetBuilder? errorWidget;
+  PDErrorWidgetBuilder? errorWidgetBuilder;
 
-  /// 自定义完成页面  优先级中等
-  Widget? completionWidget;
+  /// 自定义加载中的页面构建函数 优先级中等
+  /// 内部在需要时调用并构建ui
+  WidgetBuilder? loadingWidgetBuilder;
+
+  /// 自定义空数据的页面构建函数 优先级中等
+  /// 内部在需要时调用并构建ui
+  WidgetBuilder? emptyWidgetBuilder;
+
+  /// 自定义空数据的页面构建函数 优先级中等
+  /// 内部在需要时调用并构建ui
+  WidgetBuilder? completionWidgetBuilder;
+
+  /// 构建错误页面
+  Widget _buildErrorWidget(BuildContext context, String? errorMessage, VoidCallback? onRetry) {
+    if (errorWidgetBuilder != null) {
+      return errorWidgetBuilder!.call(
+        context,
+        errorMessage ?? defaultErrorText,
+        onRetry ?? () {},
+      );
+    }
+    return PDLoadStateDefaultWidgets(
+      backgroundColor: backgroundColor,
+      errorRetry: onRetry,
+    ).loadingView;
+  }
+
+  /// 构建加载中页面
+  Widget _buildLoadingWidget(BuildContext context) {
+    if (loadingWidgetBuilder != null) {
+      return loadingWidgetBuilder!.call(context);
+    }
+    return PDLoadStateDefaultWidgets(
+      backgroundColor: backgroundColor,
+    ).loadingView;
+  }
+
+  /// 构建空数据页面
+  Widget _buildEmptyWidget(BuildContext context) {
+    if (emptyWidgetBuilder != null) {
+      return emptyWidgetBuilder!.call(context);
+    }
+    return PDLoadStateDefaultWidgets(
+      backgroundColor: backgroundColor,
+    ).noDateView;
+  }
+
+  /// 构建操作完成页面
+  Widget _buildCompletionWidget(BuildContext context) {
+    if (completionWidgetBuilder != null) {
+      return completionWidgetBuilder!.call(context);
+    }
+    return PDLoadStateDefaultWidgets(
+      backgroundColor: backgroundColor,
+    ).completionView;
+  }
 }

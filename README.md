@@ -108,7 +108,7 @@ loadState.isRefreshSubviews;
 
 `PDLoadState` 是一个组件状态控制对象，用来控制组件的状态切换。
 
-如何切换页面的不同状态.
+如何切换页面的不同状态?
 
 How to switch between different states of a page
 
@@ -121,9 +121,17 @@ loadState.success();
 loadState.error();
 // 网络请求加载中
 loadState.loading();
+```
 
-// 或者 用状态枚举直接赋值
+或者 用状态枚举直接赋值, 内部重写了`status`的`set`方法实现刷新.
 
+```dart
+set status(PDLoadStateEnum newValue) {
+    _update(newValue);
+}
+```
+
+```dart
 // 网络请求成功
 loadState.state = PDLoadStateStatus.success;
 // 网络请求失败
@@ -132,6 +140,60 @@ loadState.state = PDLoadStateStatus.error;
 loadState.state = PDLoadStateStatus.loading;
 loadState.state = PDLoadStateStatus.reload;// 重新加载
 ```
+
+各个状态页面的 ui 级别说明
+
+UI level description of each status page
+
+示例 Example  `loadingWidget`
+
+通过`[PDLoadStateLayout]`类中参数`loadingWidgetBuilder`设置的UI, 优先级最高 Highest priority 
+```dart
+PDLoadStateLayout(
+  loadState: loadState,
+  onLoading: network,
+  builder: (context) {
+    return const Center();
+  },
+  /// 优先级最高
+  loadingWidgetBuilder: (context) {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('loading...'),
+        ],
+      ),
+    );
+  },
+)
+```
+
+`PdLoadStateConfigure`类配置,设置一次全局使用. 优先级中等 Medium priority
+```dart
+/// 自定义加载中页面 
+PdLoadStateConfigure.instance.loadingWidgetBuilder = (context) {
+   return SizedBox(
+     width: MediaQuery.of(context).size.width,
+     child: const Center(
+       child: Row(
+         mainAxisAlignment: MainAxisAlignment.center,
+         children: [
+           CircularProgressIndicator(),
+           Text('加载中...'),
+         ],
+       ),
+     ),
+   );
+};
+```
+
+如果上面两种都没有设置, 则使用默认加载中页面, 优先级最低 Lowest priority
+```dart
+PDLoadStateDefaultWidgets(backgroundColor: backgroundColor).loadingView;
+```
+
 
 更多详细用法请参考`/example/lib/main.dart`文件中的代码。
 
