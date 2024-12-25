@@ -1,34 +1,7 @@
 part of 'pd_load_state.dart';
 
-/// loadingWidget: 加载中的视图
-// ignore: must_be_immutable
-class PDCustomErrorWidgetBuilder extends StatefulWidget {
-  PDCustomErrorWidgetBuilder({
-    super.key,
-    required this.builder,
-    this.onRetry,
-    this.errorMessage,
-  });
-  final Widget Function(BuildContext context, String errorMessage, VoidCallback? onRetry) builder;
-  VoidCallback? onRetry;
-  String? errorMessage;
-
-  @override
-  State<PDCustomErrorWidgetBuilder> createState() => _PDCustomErrorWidgetBuilderState();
-}
-
-class _PDCustomErrorWidgetBuilderState extends State<PDCustomErrorWidgetBuilder> {
-  @override
-  Widget build(BuildContext context) {
-    return widget.builder(
-      context,
-      widget.errorMessage ?? PdLoadStateConfigure.instance.defaultErrorText,
-      widget.onRetry ?? () {},
-    );
-  }
-}
-
-/// 默认的各个状态的视图
+/// 默认的各个状态的视图 本类的视图级别最低.  
+/// 如果用户没有任何的自定义视图,则使用本类中的默认视图
 class PDLoadStateDefaultWidgets {
   /// 背景颜色
   final Color? backgroundColor;
@@ -86,9 +59,6 @@ class PDLoadStateDefaultWidgets {
 
   /// 空数据 优先级最低
   Widget get noDateView {
-    if (PdLoadStateConfigure.instance.emptyWidget != null) {
-      return PdLoadStateConfigure.instance.emptyWidget!;
-    }
     return Container(
       color: backgroundColor,
       alignment: Alignment.center,
@@ -111,9 +81,6 @@ class PDLoadStateDefaultWidgets {
 
   /// 错误视图 优先级最低
   Widget get errorView {
-    if (PdLoadStateConfigure.instance.errorWidget != null) {
-      return PdLoadStateConfigure.instance.errorWidget!;
-    }
 
     return Container(
       color: backgroundColor,
@@ -145,9 +112,6 @@ class PDLoadStateDefaultWidgets {
 
   /// 完成视图 优先级最低
   Widget get completionView {
-    if (PdLoadStateConfigure.instance.completionWidget != null) {
-      return PdLoadStateConfigure.instance.completionWidget!;
-    }
 
     return Container(
       color: backgroundColor,

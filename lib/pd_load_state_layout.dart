@@ -6,9 +6,6 @@ class PDLoadStateLayout extends StatefulWidget {
   /// 控件的状态,
   final PDLoadState loadState;
 
-  /// 亮度模式
-  final Brightness brightness;
-
   /// 构建成功视图
   /// 通过回调函数的方式懒加载
   final WidgetBuilder builder;
@@ -23,9 +20,6 @@ class PDLoadStateLayout extends StatefulWidget {
   /// 加载错误视图 优先级最高
   final PDErrorWidgetBuilder? errorWidgetBuilder;
 
-  /// 空数据事件处理 空数据暂时没有点击事件
-  final VoidCallback? emptyRetry;
-
   /// 空数据视图 优先级最高
   final WidgetBuilder? emptyWidgetBuilder;
 
@@ -35,20 +29,19 @@ class PDLoadStateLayout extends StatefulWidget {
   /// 加载中视图 优先级最高
   final WidgetBuilder? loadingWidgetBuilder;
 
-  /// 完成回调
-  final VoidCallback? onCompletion;
-
   /// 完成回调 优先级最高
   final WidgetBuilder? completionWidgetBuilder;
 
   /// 背景颜色
   final Color? backgroundColor;
 
+  /// 内填充
   final EdgeInsets? padding;
+
+  /// 外边距
   final EdgeInsets? margin;
 
-  /// 尺寸一般不用传
-  /// 默认为屏幕的尺寸
+  /// 尺寸
   final double? width;
   final double? height;
 
@@ -60,19 +53,16 @@ class PDLoadStateLayout extends StatefulWidget {
     Brightness? brightness,
     this.errorWidgetBuilder,
     this.errorRetry,
-    this.emptyRetry,
     this.emptyWidgetBuilder,
     this.onLoading,
     this.loadingWidgetBuilder,
-    this.onCompletion,
     this.completionWidgetBuilder,
-    Color? backgroundColor,
+    this.backgroundColor,
     this.width,
     this.height,
     this.padding,
     this.margin,
-  })  : backgroundColor = backgroundColor ?? Colors.transparent,
-        brightness = brightness ?? Brightness.light;
+  });
 
   @override
   State<PDLoadStateLayout> createState() => _PDLoadStateLayoutState();
@@ -105,86 +95,49 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: widget.backgroundColor,
-      width: widget.width ?? MediaQuery.of(context).size.width,
+      width: widget.width,
       height: widget.height,
-      margin: widget.margin,
       padding: widget.padding,
+      margin: widget.margin,
+      color: widget.backgroundColor,
       child: Builder(builder: (ctx) {
-        switch (widget.loadState.status) {
-          case PDLoadStateEnum.success:
-            return widget.builder(ctx);
-
-          case PDLoadStateEnum.error:
-
-            /// 加载错误视图
-            if (widget.errorWidgetBuilder == null) {
-              if (PdLoadStateConfigure.instance.errorWidget == null) {
-                return PDLoadStateDefaultWidgets(
-                  backgroundColor: widget.backgroundColor,
-                  errorRetry: widget.errorRetry,
-                  errorMessage: widget.loadState.errorMessage,
-                ).errorView;
-              } else {
-                PdLoadStateConfigure.instance.errorWidget?.errorMessage = widget.loadState.errorMessage;
-                debugPrint(
-                    '[ debug ] PDLoadStateLayout errorWidget ${widget.errorRetry == null ? 'null' : 'not null'}');
-                PdLoadStateConfigure.instance.errorWidget?.onRetry = widget.errorRetry;
-                return PdLoadStateConfigure.instance.errorWidget!;
-              }
-            } else {
-              return widget.errorWidgetBuilder!.call(ctx, widget.loadState.errorMessage ?? '加载失败，请点击重试!');
-            }
-          case PDLoadStateEnum.empty:
-
-            /// 构建空数据视图
-            if (widget.emptyWidgetBuilder == null) {
-              if (PdLoadStateConfigure.instance.emptyWidget == null) {
-                return PDLoadStateDefaultWidgets(
-                  backgroundColor: widget.backgroundColor,
-                ).noDateView;
-              } else {
-                return PdLoadStateConfigure.instance.emptyWidget!;
-              }
-            } else {
-              return widget.emptyWidgetBuilder!.call(ctx);
-            }
-
-          case PDLoadStateEnum.reload:
-          case PDLoadStateEnum.loading:
-            widget.onLoading?.call();
-
-            /// 加载中视图
-            if (widget.loadingWidgetBuilder == null) {
-              if (PdLoadStateConfigure.instance.loadingWidget == null) {
-                return PDLoadStateDefaultWidgets(
-                  backgroundColor: widget.backgroundColor,
-                ).loadingView;
-              } else {
-                return PdLoadStateConfigure.instance.loadingWidget!;
-              }
-            } else {
-              return widget.loadingWidgetBuilder!.call(ctx);
-            }
-
-          case PDLoadStateEnum.completion:
-            widget.onCompletion?.call();
-
-            /// 加载中视图
-            if (widget.completionWidgetBuilder == null) {
-              if (PdLoadStateConfigure.instance.completionWidget == null) {
-                return PDLoadStateDefaultWidgets(
-                  backgroundColor: widget.backgroundColor,
-                ).completionView;
-              } else {
-                return PdLoadStateConfigure.instance.completionWidget!;
-              }
-            } else {
-              return widget.completionWidgetBuilder!.call(ctx);
-            }
-          default:
-            return Container();
+        if (widget.loadState.status == PDLoadStateEnum.loading || widget.loadState.status == PDLoadStateEnum.reload) {
+          widget.onLoading?.call();
+          if (widget.loadingWidgetBuilder == null) {
+            return PdLoadStateConfigure.instance._buildLoadingWidget(ctx);
+          } else {
+            return widget.loadingWidgetBuilder!.call(ctx);
+          }
+        } else if (widget.loadState.status == PDLoadStateEnum.success) {
+          return widget.builder(ctx);
+        } else if (widget.loadState.status == PDLoadStateEnum.empty) {
+          if (widget.emptyWidgetBuilder == null) {
+            return PdLoadStateConfigure.instance._buildEmptyWidget(ctx);
+          } else {
+            return widget.emptyWidgetBuilder!.call(ctx);
+          }
+        } else if (widget.loadState.status == PDLoadStateEnum.error) {
+          if (widget.errorWidgetBuilder == null) {
+            return PdLoadStateConfigure.instance._buildErrorWidget(
+              ctx,
+              widget.loadState.errorMessage,
+              widget.errorRetry,
+            );
+          } else {
+            return widget.errorWidgetBuilder!.call(
+              ctx,
+              widget.loadState.errorMessage ?? '加载失败，请点击重试!',
+              widget.errorRetry,
+            );
+          }
+        } else if (widget.loadState.status == PDLoadStateEnum.completion) {
+          if (widget.completionWidgetBuilder == null) {
+            return PdLoadStateConfigure.instance._buildCompletionWidget(ctx);
+          } else {
+            return widget.completionWidgetBuilder!.call(ctx);
+          }
         }
+        return Container();
       }),
     );
   }
