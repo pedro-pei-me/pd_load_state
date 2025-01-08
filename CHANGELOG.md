@@ -24,3 +24,7 @@
 ## 0.0.6
 
 - 修复了`PdLoadStateConfigure`类中的加载中视图`loadingWidgetBuilder`无法正常使用的问题.
+
+## 0.0.7
+
+- 针对`PDLoadStateLayout`对象添加一些`debug`调试信息.
