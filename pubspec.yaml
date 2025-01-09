@@ -1,6 +1,6 @@
 name: pd_load_state
 description: 'Provide UI for various status pages of network data loading, and support responsive switching of UI pages.'
-version: 0.0.8
+version: 0.1.1
 homepage: https://yourwebsite.com/flutter_tbxt
 repository: https://github.com/yourusername/flutter_tbxt
 

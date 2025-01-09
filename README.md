@@ -207,6 +207,10 @@ For more detailed usage, please refer to the code in the `/example/lib/main.dart
 
 ## 许可证 License
 
-此软件包根据 [MIT License](LICENSE) 获得许可。
+此软件包根据 [MIT License][MIT] 获得许可。
 
-This package is licensed under the [MIT License](LICENSE).
+This package is licensed under the [MIT License][MIT] .
+
+<!-- 相关 url -->
+
+[MIT]: https://gitee.com/peiduo_734386_admin/pd_load_state/tree/master/LICENSE
