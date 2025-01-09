@@ -145,9 +145,10 @@ loadState.state = PDLoadStateStatus.reload;// 重新加载
 
 UI level description of each status page
 
-示例 Example  `loadingWidget`
+示例 Example `loadingWidget`
 
-通过`[PDLoadStateLayout]`类中参数`loadingWidgetBuilder`设置的UI, 优先级最高 Highest priority 
+通过`[PDLoadStateLayout]`类中参数`loadingWidgetBuilder`设置的 UI, 优先级最高 Highest priority
+
 ```dart
 PDLoadStateLayout(
   loadState: loadState,
@@ -171,8 +172,9 @@ PDLoadStateLayout(
 ```
 
 `PdLoadStateConfigure`类配置,设置一次全局使用. 优先级中等 Medium priority
+
 ```dart
-/// 自定义加载中页面 
+/// 自定义加载中页面
 PdLoadStateConfigure.instance.loadingWidgetBuilder = (context) {
    return SizedBox(
      width: MediaQuery.of(context).size.width,
@@ -190,10 +192,10 @@ PdLoadStateConfigure.instance.loadingWidgetBuilder = (context) {
 ```
 
 如果上面两种都没有设置, 则使用默认加载中页面, 优先级最低 Lowest priority
+
 ```dart
 PDLoadStateDefaultWidgets(backgroundColor: backgroundColor).loadingView;
 ```
-
 
 更多详细用法请参考`/example/lib/main.dart`文件中的代码。
 

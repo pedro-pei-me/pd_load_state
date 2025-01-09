@@ -88,7 +88,7 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
   @override
   void dispose() {
     _subscription.cancel();
-    debugPrint('[ debug ] PDLoadStateLayout dispose');
+    debugPrint('[ debug ] PDLoadStateLayout dispose identifier: ${widget.loadState.identifier}');
     super.dispose();
   }
 
