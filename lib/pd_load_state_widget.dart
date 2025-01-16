@@ -1,6 +1,6 @@
 part of 'pd_load_state.dart';
 
-/// 默认的各个状态的视图 本类的视图级别最低.  
+/// 默认的各个状态的视图 本类的视图级别最低.
 /// 如果用户没有任何的自定义视图,则使用本类中的默认视图
 class PDLoadStateDefaultWidgets {
   /// 背景颜色
@@ -81,7 +81,6 @@ class PDLoadStateDefaultWidgets {
 
   /// 错误视图 优先级最低
   Widget get errorView {
-
     return Container(
       color: backgroundColor,
       alignment: Alignment.center,
@@ -112,7 +111,6 @@ class PDLoadStateDefaultWidgets {
 
   /// 完成视图 优先级最低
   Widget get completionView {
-
     return Container(
       color: backgroundColor,
       alignment: Alignment.center,

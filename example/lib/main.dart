@@ -141,11 +141,11 @@ class _MyHomePageState extends State<MyHomePage> {
         onLoading: network,
 
         /// 发生错误后点击页面中的[重试]按钮时要执行的函数。
-        errorRetry: loadState.loading,
+        onErrorRetry: loadState.loading,
 
         /// 监听 可选
         /// 状态变更后的回调，可以在这里做一些状态变更后的处理。
-        stateChanged: (PDLoadStateEnum state) {
+        onStateChanged: (PDLoadStateEnum state) {
           // 根据业务需要，可以在这里做一些状态变更后的处理
         },
 

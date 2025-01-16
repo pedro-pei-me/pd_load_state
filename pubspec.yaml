@@ -1,6 +1,6 @@
 name: pd_load_state
 description: 'Provide UI for various status pages of network data loading, and support responsive switching of UI pages.'
-version: 0.1.3
+version: 0.1.4
 homepage: https://pub.dev/packages/pd_load_state
 repository: https://gitee.com/peiduo_734386_admin/pd_load_state/tree/master/
 
