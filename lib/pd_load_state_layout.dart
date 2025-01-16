@@ -12,10 +12,10 @@ class PDLoadStateLayout extends StatefulWidget {
 
   /// 当 loadState 中的 state 发生改变时（赋相同的值也会）触发的回调
   /// 参数为当前的状态，PDLoadStateEnum 枚举中的一种
-  final PDLoadStateChanged? stateChanged;
+  final PDLoadStateChanged? onStateChanged;
 
   /// 加载错误页面中按钮点击事件回调
-  final VoidCallback? errorRetry;
+  final VoidCallback? onErrorRetry;
 
   /// 加载错误视图 优先级最高
   final PDErrorWidgetBuilder? errorWidgetBuilder;
@@ -49,10 +49,10 @@ class PDLoadStateLayout extends StatefulWidget {
     super.key,
     required this.loadState,
     required this.builder,
-    this.stateChanged,
+    this.onStateChanged,
     Brightness? brightness,
     this.errorWidgetBuilder,
-    this.errorRetry,
+    this.onErrorRetry,
     this.emptyWidgetBuilder,
     this.onLoading,
     this.loadingWidgetBuilder,
@@ -79,7 +79,7 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
     _subscription = _updateLoadState.stream.listen((value) {
       if (widget.loadState.identifier == value.identifier) {
         setState(() {
-          widget.stateChanged?.call(value.status);
+          widget.onStateChanged?.call(value.status);
         });
       }
     });
@@ -121,13 +121,13 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
             return PdLoadStateConfigure.instance._buildErrorWidget(
               ctx,
               widget.loadState.errorMessage,
-              widget.errorRetry,
+              widget.onErrorRetry,
             );
           } else {
             return widget.errorWidgetBuilder!.call(
               ctx,
               widget.loadState.errorMessage ?? '加载失败，请点击重试!',
-              widget.errorRetry,
+              widget.onErrorRetry,
             );
           }
         } else if (widget.loadState.status == PDLoadStateEnum.completion) {
