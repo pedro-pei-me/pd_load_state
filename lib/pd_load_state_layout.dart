@@ -77,7 +77,7 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
     super.initState();
 
     _subscription = _updateLoadState.stream.listen((value) {
-      if (widget.loadState.identifier == value.identifier) {
+      if (mounted && widget.loadState.identifier == value.identifier) {
         setState(() {
           widget.onStateChanged?.call(value.status);
         });
