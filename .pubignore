@@ -1,0 +1,13 @@
+# Exclude example development files from published package
+example/pubspec.lock
+example/build/
+example/.dart_tool/
+example/.flutter-plugins
+example/.flutter-plugins-dependencies
+example/.packages
+
+# Exclude assets folder (contains demo SVG)
+assets/
+
+# Exclude IDE files
+*.iml

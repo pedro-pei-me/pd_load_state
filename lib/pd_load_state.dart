@@ -30,10 +30,12 @@ part 'pd_load_state_enum.dart';
 part 'pd_load_state_layout.dart';
 part 'pd_load_state_widget.dart';
 part 'pd_load_state_configure.dart';
+part 'pd_load_state_enhanced_widgets.dart';
 
 /// 事件通道控制器
 /// 发送 视图状态 来控制显示内容
-StreamController<PDLoadState> _updateLoadState = StreamController<PDLoadState>.broadcast();
+StreamController<PDLoadState> _updateLoadState =
+    StreamController<PDLoadState>.broadcast();
 
 /// 视图状态控制对象
 class PDLoadState {

@@ -1,6 +1,6 @@
 name: pd_load_state
-description: 'Provide UI for various status pages of network data loading, and support responsive switching of UI pages.'
-version: 0.1.4
+description: 'A Flutter plugin for network request state management with enhanced UI design, animations, and multi-platform support. Easily add loading, error, empty, and success states to your widgets.'
+version: 0.2.0
 homepage: https://pub.dev/packages/pd_load_state
 repository: https://gitee.com/peiduo_734386_admin/pd_load_state/tree/master/
 
@@ -17,5 +17,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^3.0.0
 
 flutter:

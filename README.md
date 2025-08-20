@@ -6,6 +6,18 @@
 This is a UI page encapsulation that corresponds to different states of network requests,
 allowing for quick addition of UI pages with different request states to a certain 'widget' for easy and rapid development.
 
+## 功能演示 Feature Demo
+
+<div align="center">
+  <img src="assets/pd_load_state_demo.svg" alt="PD Load State Demo" width="100%">
+</div>
+
+> 🎨 **增强版UI设计** - 支持现代化的加载动画、优雅的渐变效果和流畅的状态转换
+> 
+> 📱 **多平台支持** - 完美适配 Android、iOS、Web、macOS、Windows、Linux
+> 
+> ⚡ **轻量高效** - 简单易用的API设计，快速集成到现有项目
+
 ## 安装 Installation
 
 要使用此包，请将以下内容添加到您的`pubspec.yaml`文件中：
@@ -203,7 +215,21 @@ For more detailed usage, please refer to the code in the `/example/lib/main.dart
 
 ## 支持和社区 Support and Community
 
-- [Gitee Discussions](https://gitee.com/peiduo_734386_admin/pd_load_state/tree/master/)
+- [Gitee Repository](https://gitee.com/peiduo_734386_admin/pd_load_state)
+- [GitHub Repository](https://github.com/peiduo/pd_load_state)
+- [pub.dev Package](https://pub.dev/packages/pd_load_state)
+
+### 问题反馈 Issue Reporting
+如果您在使用过程中遇到问题或有功能建议，请通过以下方式联系我们：
+- 在 GitHub 或 Gitee 上提交 Issue
+- 发送邮件至开发者邮箱
+
+### 贡献指南 Contributing
+我们欢迎社区贡献！如果您想为项目做出贡献，请：
+1. Fork 项目仓库
+2. 创建功能分支
+3. 提交您的更改
+4. 发起 Pull Request
 
 ## 许可证 License
 

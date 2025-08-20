@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-
 import 'package:pd_load_state/pd_load_state.dart';
+import 'platform_demo.dart';
 
 void main() {
   /// 初始化加载的各个状态页面UI
@@ -15,53 +15,17 @@ void main() {
 /// 可选 不配置内部有默认的UI(比较丑)
 /// 通过下面方式配置的UI优先级低于通过[PDLoadStateLayout]类中参数`errorWidgetBuilder`设置的UI
 void initPdLoadStateWidgets() {
-  /// 自定义错误页面 优先级中等
-  PdLoadStateConfigure.instance.errorWidgetBuilder = (context, error, onRetry) {
-    debugPrint('errorWidgetBuilder');
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(error),
-            ElevatedButton(
-              onPressed: onRetry,
-              child: const Text(
-                '重试',
-                style: TextStyle(color: Colors.black),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  };
-  // 自定义加载中页面 优先级中等
-  PdLoadStateConfigure.instance.loadingWidgetBuilder = (context) {
-    debugPrint('loadingWidgetBuilder');
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: const Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            Text('加载中...'),
-          ],
-        ),
-      ),
-    );
-  };
+  /// 启用增强版UI设计（包含动画、渐变、阴影等效果）
+  PdLoadStateConfigure.instance.useEnhancedUI = true;
 
-  PdLoadStateConfigure.instance.emptyWidgetBuilder = (context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: const Center(
-        child: Text('暂无数据'),
-      ),
-    );
-  };
+  /// 可选：自定义背景颜色
+  PdLoadStateConfigure.instance.backgroundColor = Colors.grey.shade50;
+
+  /// 可选：自定义文本
+  PdLoadStateConfigure.instance.defaultLoadingText = '正在加载数据...';
+  PdLoadStateConfigure.instance.defaultErrorText = '加载失败，请重试';
+  PdLoadStateConfigure.instance.defaultEmptyText = '暂无数据显示';
+  PdLoadStateConfigure.instance.defaultCompletionText = '操作完成！';
 }
 
 class MyApp extends StatelessWidget {
@@ -70,12 +34,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PDLoadState Example Demo',
+      title: 'PD Load State Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Simple Example Demo'),
+      home: const MyHomePage(title: 'PD Load State 示例'),
     );
   }
 }
@@ -90,38 +54,73 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  /// 请在要使用的地方初始化[PDLoadState]
-  /// 初始化时传入一个尽可能唯一的标识， 用于区分不同组件的的状态变更和刷新。
-  /// 根据业务需要也可以根据标识来判断是哪一个组件 `loadState.identifier`
-  /// 参数[isRefreshSubviews]是否刷新子组件，默认为true。
-  /// 如果isRefreshSubviews为true，那么重复调用loadState.success();都会执行成功时的[builder]方法。
-  PDLoadState loadState = PDLoadState('MyHomePage body loadState');
+  late PDLoadState _loadState;
+  List<String> _dataList = [];
+  int _currentDemo = 0;
 
-  void network() {
-    /// 模仿一次网络请求。
-    debugPrint('network send');
-    Future.delayed(const Duration(seconds: 3)).then((_) {
-      debugPrint('network response');
-      if (Random().nextBool()) {
-        // 模拟请求成功, loadState.success() 会让页面回到加载成功状态
-        loadState.success();
-      } else {
-        // 模拟请求失败, loadState.error() 会让页面展示错误页面
-        // 如果想让一些错误信息展示在页面，可以按照下面的方式实现。
-        // loadState.errorMessage = '加载失败';
-        // loadState.error();
-        // 或者
-        // loadState.error(msg: '加载失败');
+  @override
+  void initState() {
+    super.initState();
+    _loadState = PDLoadState('demo_load_state');
+    _simulateLoading();
+  }
 
-        loadState.error();
+  /// 模拟加载数据
+  void _simulateLoading() {
+    _loadState.loading();
+
+    Future.delayed(const Duration(seconds: 2), () {
+      final random = Random();
+      final result = random.nextInt(4); // 0-3随机数
+
+      switch (result) {
+        case 0:
+          // 成功加载数据
+          _dataList = List.generate(10, (index) => '数据项 ${index + 1}');
+          _loadState.success();
+          break;
+        case 1:
+          // 加载失败
+          _loadState.error(msg: '网络连接失败，请检查网络设置');
+          break;
+        case 2:
+          // 空数据
+          _dataList.clear();
+          _loadState.empty();
+          break;
+        case 3:
+          // 操作完成
+          _loadState.completion();
+          break;
       }
-
-      /// 如果要展示空数据页面
-      /// loadState.empty();
-
-      /// 如果需要让组件重新加载数据，可以在合适的时机调用 loadState.loading();
-      /// 比如用户点击[重试]按钮时
     });
+  }
+
+  /// 重试加载
+  void _retryLoading() {
+    _simulateLoading();
+  }
+
+  /// 切换演示模式
+  void _switchDemo() {
+    setState(() {
+      _currentDemo = (_currentDemo + 1) % 4;
+    });
+
+    switch (_currentDemo) {
+      case 0:
+        _simulateLoading();
+        break;
+      case 1:
+        _loadState.loading();
+        break;
+      case 2:
+        _loadState.error(msg: '这是一个错误示例');
+        break;
+      case 3:
+        _loadState.empty();
+        break;
+    }
   }
 
   @override
@@ -130,135 +129,272 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.devices),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PlatformDemoPage(),
+                ),
+              );
+            },
+            tooltip: '平台演示',
+          ),
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _retryLoading,
+            tooltip: '重新加载',
+          ),
+          IconButton(
+            icon: const Icon(Icons.swap_horiz),
+            onPressed: _switchDemo,
+            tooltip: '切换演示',
+          ),
+        ],
       ),
+      body: Column(
+        children: [
+          // 状态指示器
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            color: Colors.blue.shade50,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '当前演示模式: ${_getDemoName()}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '点击右上角按钮可以切换不同的加载状态演示',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // 主要内容区域
+          Expanded(
+            child: PDLoadStateLayout(
+              loadState: _loadState,
+              onErrorRetry: _retryLoading,
+              builder: (context) => _buildContentWidget(),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _simulateLoading,
+        tooltip: '模拟加载',
+        child: const Icon(Icons.play_arrow),
+      ),
+    );
+  }
 
-      /// 使用[PDLoadStateLayout]包裹需要展示加载状态的组件
+  /// 获取当前演示模式名称
+  String _getDemoName() {
+    switch (_currentDemo) {
+      case 0:
+        return '随机演示';
+      case 1:
+        return '加载中状态';
+      case 2:
+        return '错误状态';
+      case 3:
+        return '空数据状态';
+      default:
+        return '未知状态';
+    }
+  }
+
+  /// 构建内容组件
+  Widget _buildContentWidget() {
+    if (_dataList.isEmpty) {
+      return const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.check_circle_outline,
+              size: 64,
+              color: Colors.green,
+            ),
+            SizedBox(height: 16),
+            Text(
+              '准备就绪',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '点击浮动按钮开始演示',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: _dataList.length,
+      itemBuilder: (context, index) {
+        return Card(
+          margin: const EdgeInsets.only(bottom: 8),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.blue.shade100,
+              child: Text('${index + 1}'),
+            ),
+            title: Text(_dataList[index]),
+            subtitle: Text('这是第${index + 1}条数据的描述信息'),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('点击了: ${_dataList[index]}'),
+                  duration: const Duration(seconds: 1),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// 自定义演示页面
+class CustomDemoPage extends StatefulWidget {
+  const CustomDemoPage({super.key});
+
+  @override
+  State<CustomDemoPage> createState() => _CustomDemoPageState();
+}
+
+class _CustomDemoPageState extends State<CustomDemoPage> {
+  late PDLoadState _customLoadState;
+
+  @override
+  void initState() {
+    super.initState();
+    _customLoadState = PDLoadState('custom_demo');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('自定义演示'),
+      ),
       body: PDLoadStateLayout(
-        /// 必传 绑定的[PDLoadState] 用来控制组件的状态切换。
-        loadState: loadState,
-
-        /// 加载状态时要执行的函数。
-        onLoading: network,
-
-        /// 发生错误后点击页面中的[重试]按钮时要执行的函数。
-        onErrorRetry: loadState.loading,
-
-        /// 监听 可选
-        /// 状态变更后的回调，可以在这里做一些状态变更后的处理。
-        onStateChanged: (PDLoadStateEnum state) {
-          // 根据业务需要，可以在这里做一些状态变更后的处理
-        },
-
-        /// 可选 优先级最高
-        /// 部分页面需要独特的错误视图，可以在这里自定义。
-        // errorWidgetBuilder: (BuildContext context, String errorMessage, _) {
-        //   return Center(
-        //     child: Column(
-        //       mainAxisSize: MainAxisSize.min,
-        //       children: [
-        //         Text(errorMessage),
-        //         ElevatedButton(
-        //           onPressed: loadState.loading,
-        //           child: const Text(
-        //             '重试',
-        //             style: TextStyle(color: Colors.black),
-        //           ),
-        //         )
-        //       ],
-        //     ),
-        //   );
-        // },
-
-        /// 可选 优先级最高
-        /// 部分页面需要独特的空数据视图，可以在这里自定义。
-        // emptyWidgetBuilder: (context) {
-        //   return const Center(
-        //     child: Text('empty'),
-        //   );
-        // },
-
-        /// 可选 优先级最高
-        /// 部分页面需要独特的加载中视图，可以在这里自定义。
-        // loadingWidgetBuilder: (context) {
-        //   return const Center(
-        //     child: Column(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       mainAxisSize: MainAxisSize.min,
-        //       children: [
-        //         Text('loading...'),
-        //       ],
-        //     ),
-        //   );
-        // },
-
-        /// 必传 加载成功后展示的组件
-        builder: (context) {
-          debugPrint('loadState.success() builder');
+        loadState: _customLoadState,
+        // 自定义错误页面
+        errorWidgetBuilder: (context, error, onRetry) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  'You have pushed the button this many times:',
+              children: [
+                const Icon(
+                  Icons.sentiment_dissatisfied,
+                  size: 80,
+                  color: Colors.orange,
                 ),
+                const SizedBox(height: 16),
+                const Text(
+                  '哎呀，出错了！',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
                 Text(
-                  loadState.identifier,
-                  style: Theme.of(context).textTheme.headlineMedium,
+                  error,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton.icon(
+                  onPressed: onRetry,
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('再试一次'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    foregroundColor: Colors.white,
+                  ),
                 ),
               ],
             ),
           );
         },
+        // 自定义加载页面
+        loadingWidgetBuilder: (context) {
+          return const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(
+                  strokeWidth: 3,
+                ),
+                SizedBox(height: 16),
+                Text(
+                  '自定义加载中...',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.blue,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        builder: (context) => const Center(
+          child: Text(
+            '这是自定义演示页面的内容',
+            style: TextStyle(fontSize: 18),
+          ),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: loadState.loading,
-        tooltip: 'Increment',
-        child: const Icon(Icons.refresh),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'loading',
+            onPressed: () => _customLoadState.loading(),
+            tooltip: '显示加载',
+            child: const Icon(Icons.hourglass_empty),
+          ),
+          const SizedBox(height: 8),
+          FloatingActionButton(
+            heroTag: 'error',
+            onPressed: () => _customLoadState.error(msg: '自定义错误信息'),
+            tooltip: '显示错误',
+            child: const Icon(Icons.error),
+          ),
+          const SizedBox(height: 8),
+          FloatingActionButton(
+            heroTag: 'success',
+            onPressed: () => _customLoadState.success(),
+            tooltip: '显示成功',
+            child: const Icon(Icons.check),
+          ),
+        ],
       ),
     );
-  }
-}
-
-// Simple example
-// 如果想让这个组件展示加载状态，可以按照下面的方式实现。
-class SimpleExample extends StatefulWidget {
-  const SimpleExample({super.key});
-
-  @override
-  State<SimpleExample> createState() => _SimpleExampleState();
-}
-
-class _SimpleExampleState extends State<SimpleExample> {
-  // 初始化组件状态控制对象
-  // 控制对象默认会执行加载中状态.
-  final PDLoadState loadState = PDLoadState('SimpleExample');
-
-  @override
-  Widget build(BuildContext context) {
-    // 使用[PDLoadStateLayout]包裹某一个组件.
-    return PDLoadStateLayout(
-      // 必传 绑定的[PDLoadState] 用来控制组件的状态切换。
-      loadState: loadState,
-      // 在加载状态时执行的回调, 在这里发送网络请求.
-      onLoading: network,
-      // 必传 加载状态成功时要执行的函数, 返回一个要展示的ui组件。
-      builder: (context) {
-        return const Center(
-          child: Text('Simple example'),
-        );
-      },
-    );
-  }
-
-  /// 模仿一次网络请求。
-  void network() {
-    Future.delayed(const Duration(seconds: 3)).then((_) {
-      if (Random().nextBool()) {
-        // 模拟请求成功, loadState.success() 会让页面回到加载成功状态
-        loadState.success();
-      } else {
-        loadState.error();
-      }
-    });
   }
 }

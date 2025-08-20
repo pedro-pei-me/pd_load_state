@@ -17,7 +17,8 @@ typedef PDErrorWidgetBuilder = Widget Function(
 
 class PdLoadStateConfigure {
   // 使用 late 和 final 确保实例只被创建一次
-  static final PdLoadStateConfigure _instance = PdLoadStateConfigure._internal();
+  static final PdLoadStateConfigure _instance =
+      PdLoadStateConfigure._internal();
 
   // 私有构造函数，防止外部直接实例化
   PdLoadStateConfigure._internal();
@@ -45,6 +46,9 @@ class PdLoadStateConfigure {
   /// 默认加载完成提示文本
   String defaultCompletionText = '成功！';
 
+  /// 是否使用增强版UI设计（包含动画、渐变、阴影等效果）
+  bool useEnhancedUI = false;
+
   /// 自定义错误页面  优先级中等
   PDErrorWidgetBuilder? errorWidgetBuilder;
 
@@ -61,7 +65,8 @@ class PdLoadStateConfigure {
   WidgetBuilder? completionWidgetBuilder;
 
   /// 构建错误页面
-  Widget _buildErrorWidget(BuildContext context, String? errorMessage, VoidCallback? onRetry) {
+  Widget _buildErrorWidget(
+      BuildContext context, String? errorMessage, VoidCallback? onRetry) {
     if (errorWidgetBuilder != null) {
       return errorWidgetBuilder!.call(
         context,
@@ -69,16 +74,29 @@ class PdLoadStateConfigure {
         onRetry ?? () {},
       );
     }
+    if (useEnhancedUI) {
+      return PDLoadStateEnhancedWidgets(
+        backgroundColor: backgroundColor,
+        errorRetry: onRetry,
+        errorMessage: errorMessage,
+      ).errorView;
+    }
     return PDLoadStateDefaultWidgets(
       backgroundColor: backgroundColor,
       errorRetry: onRetry,
-    ).loadingView;
+      errorMessage: errorMessage,
+    ).errorView;
   }
 
   /// 构建加载中页面
   Widget _buildLoadingWidget(BuildContext context) {
     if (loadingWidgetBuilder != null) {
       return loadingWidgetBuilder!.call(context);
+    }
+    if (useEnhancedUI) {
+      return PDLoadStateEnhancedWidgets(
+        backgroundColor: backgroundColor,
+      ).loadingView;
     }
     return PDLoadStateDefaultWidgets(
       backgroundColor: backgroundColor,
@@ -90,6 +108,11 @@ class PdLoadStateConfigure {
     if (emptyWidgetBuilder != null) {
       return emptyWidgetBuilder!.call(context);
     }
+    if (useEnhancedUI) {
+      return PDLoadStateEnhancedWidgets(
+        backgroundColor: backgroundColor,
+      ).noDateView;
+    }
     return PDLoadStateDefaultWidgets(
       backgroundColor: backgroundColor,
     ).noDateView;
@@ -99,6 +122,11 @@ class PdLoadStateConfigure {
   Widget _buildCompletionWidget(BuildContext context) {
     if (completionWidgetBuilder != null) {
       return completionWidgetBuilder!.call(context);
+    }
+    if (useEnhancedUI) {
+      return PDLoadStateEnhancedWidgets(
+        backgroundColor: backgroundColor,
+      ).completionView;
     }
     return PDLoadStateDefaultWidgets(
       backgroundColor: backgroundColor,
