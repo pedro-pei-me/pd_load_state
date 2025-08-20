@@ -17,7 +17,8 @@ class PDLoadStateDefaultWidgets {
     this.errorRetry,
     String? errorMessage,
   })  : backgroundColor = backgroundColor ?? Colors.transparent,
-        errorMessage = errorMessage ?? PdLoadStateConfigure.instance.defaultErrorText;
+        errorMessage =
+            errorMessage ?? PdLoadStateConfigure.instance.defaultErrorText;
 
   /// 加载中视图 优先级最低
   Widget get loadingView {

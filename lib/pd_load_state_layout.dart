@@ -77,7 +77,7 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
     super.initState();
 
     _subscription = _updateLoadState.stream.listen((value) {
-      if (widget.loadState.identifier == value.identifier) {
+      if (mounted && widget.loadState.identifier == value.identifier) {
         setState(() {
           widget.onStateChanged?.call(value.status);
         });
@@ -88,7 +88,8 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
   @override
   void dispose() {
     _subscription.cancel();
-    debugPrint('[ debug ] PDLoadStateLayout dispose identifier: ${widget.loadState.identifier}');
+    debugPrint(
+        '[ debug ] PDLoadStateLayout dispose identifier: ${widget.loadState.identifier}');
     super.dispose();
   }
 
@@ -101,7 +102,8 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
       margin: widget.margin,
       color: widget.backgroundColor,
       child: Builder(builder: (ctx) {
-        if (widget.loadState.status == PDLoadStateEnum.loading || widget.loadState.status == PDLoadStateEnum.reload) {
+        if (widget.loadState.status == PDLoadStateEnum.loading ||
+            widget.loadState.status == PDLoadStateEnum.reload) {
           widget.onLoading?.call();
           if (widget.loadingWidgetBuilder == null) {
             return PdLoadStateConfigure.instance._buildLoadingWidget(ctx);

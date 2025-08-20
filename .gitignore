@@ -295,7 +295,6 @@ xcuserdata/
 
 # CocoaPods - Refactored to standalone file
 
-
 # Carthage - Refactored to standalone file
 
 # fastlane
@@ -354,7 +353,6 @@ playground.xcworkspace
 # For more information about the recommended setup visit:
 # https://docs.fastlane.tools/best-practices/source-control/#source-control
 
-
 ### Xcode ###
 # Xcode
 #
@@ -377,3 +375,6 @@ playground.xcworkspace
 build/
 
 # End of https://www.gitignore.io/api/dart,swift,xcode,android,intellij,cocoapods,objective-c,androidstudio
+
+# FVM Version Cache
+.fvm/
