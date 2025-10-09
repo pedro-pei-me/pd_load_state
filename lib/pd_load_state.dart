@@ -24,6 +24,7 @@ library pd_load_state;
 
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 part 'pd_load_state_enum.dart';
