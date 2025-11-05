@@ -1,5 +1,5 @@
 name: pd_load_state
-description: "A Flutter plugin for network request state management with enhanced UI design, animations, and multi-platform support. Easily add loading, error, empty, and success states to your widgets."
+description: Flutter插件用于网络请求状态管理，具有增强的UI设计、动画和多平台支持。可以轻松地将加载、错误、空和成功状态添加到小部件中。
 version: 0.2.1
 homepage: https://gitee.com/pedro-labs/
 repository: https://gitee.com/pedro-labs/pd_load_state
