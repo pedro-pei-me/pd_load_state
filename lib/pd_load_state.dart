@@ -75,14 +75,17 @@ class PDLoadState {
   /// 开始刷新UI
   /// - [newValue] 新的状态
   void _update(PDLoadStateEnum newValue) {
-    if (_status != newValue) {
+    final stateChanged = _status != newValue;
+    if (stateChanged) {
       _status = newValue;
       _updateLoadState.add(this);
     }
-    if (isRefreshSubviews) {
-      if (newValue == PDLoadStateEnum.success) {
-        _updateLoadState.add(this);
-      }
+    // 仅在状态未变化且需要刷新子控件时单独触发一次，
+    // 避免状态变化时重复触发导致两次 rebuild。
+    if (!stateChanged &&
+        isRefreshSubviews &&
+        newValue == PDLoadStateEnum.success) {
+      _updateLoadState.add(this);
     }
   }
 
