@@ -5,6 +5,11 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## 0.2.2 - 2026-06-08
+
+### 🔧 改进优化 Improvements
+- ⚡ **刷新逻辑优化** - 优化 `_update` 状态更新逻辑，避免特定场景下重复触发导致两次 rebuild
+
 ## 0.2.1 - 2025-08-26
 
 ### 📝 文档更新 Documentation Updates

@@ -6,8 +6,11 @@ example/.flutter-plugins
 example/.flutter-plugins-dependencies
 example/.packages
 
-# Exclude assets folder (contains demo SVG)
-assets/
+# Exclude generated / tool artifacts
+.dart_tool/
+.packages
+build/
+doc/
 
 # Exclude IDE files
 *.iml

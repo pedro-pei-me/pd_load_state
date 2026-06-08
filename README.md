@@ -26,7 +26,7 @@ To use this package, add the following to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  pd_load_state: ^0.2.1
+  pd_load_state: ^0.2.2
 ```
 
 执行 implement
@@ -108,7 +108,7 @@ Description of Component State Control Objects
 // 控制对象默认会执行加载中状态.
 final PDLoadState loadState = PDLoadState('SimpleExample');
 // 状态枚举属性
-loadState.state;
+loadState.status;
 // 如果是请求错误时的自定义错误文本
 loadState.errorMessage;
 // 控制对象的身份标识, 用来区分多个组件的状态切换
@@ -145,12 +145,12 @@ set status(PDLoadStateEnum newValue) {
 
 ```dart
 // 网络请求成功
-loadState.state = PDLoadStateStatus.success;
+loadState.status = PDLoadStateEnum.success;
 // 网络请求失败
-loadState.state = PDLoadStateStatus.error;
+loadState.status = PDLoadStateEnum.error;
 // 网络请求加载中
-loadState.state = PDLoadStateStatus.loading;
-loadState.state = PDLoadStateStatus.reload;// 重新加载
+loadState.status = PDLoadStateEnum.loading;
+loadState.status = PDLoadStateEnum.reload; // 重新加载
 ```
 
 各个状态页面的 ui 级别说明
