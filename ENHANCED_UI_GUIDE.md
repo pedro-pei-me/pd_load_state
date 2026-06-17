@@ -18,8 +18,8 @@
 ```dart
 void main() {
   // 启用增强版UI
-  PdLoadStateConfigure.instance.useEnhancedUI = true;
-  
+  PDLoadStateConfigure.instance.useEnhancedUI = true;
+
   runApp(MyApp());
 }
 ```
@@ -29,16 +29,16 @@ void main() {
 ```dart
 void initPdLoadStateWidgets() {
   // 启用增强版UI设计（包含动画、渐变、阴影等效果）
-  PdLoadStateConfigure.instance.useEnhancedUI = true;
-  
+  PDLoadStateConfigure.instance.useEnhancedUI = true;
+
   // 可选：自定义背景颜色
-  PdLoadStateConfigure.instance.backgroundColor = Colors.grey.shade50;
-  
+  PDLoadStateConfigure.instance.backgroundColor = Colors.grey.shade50;
+
   // 可选：自定义文本
-  PdLoadStateConfigure.instance.defaultLoadingText = '正在加载...';
-  PdLoadStateConfigure.instance.defaultErrorText = '加载失败，请重试';
-  PdLoadStateConfigure.instance.defaultEmptyText = '暂无数据';
-  PdLoadStateConfigure.instance.defaultCompletionText = '操作完成';
+  PDLoadStateConfigure.instance.defaultLoadingText = '正在加载...';
+  PDLoadStateConfigure.instance.defaultErrorText = '加载失败，请重试';
+  PDLoadStateConfigure.instance.defaultEmptyText = '暂无数据';
+  PDLoadStateConfigure.instance.defaultCompletionText = '操作完成';
 }
 ```
 
@@ -75,25 +75,25 @@ void initPdLoadStateWidgets() {
 
 ## 动画组件说明
 
-### 脉冲动画容器 (_PulsingContainer)
+### 脉冲动画容器 (\_PulsingContainer)
 
 - 2秒循环动画
 - 缩放范围：0.8 - 1.0
 - 使用easeInOut曲线
 
-### 旋转加载指示器 (_RotatingLoadingIndicator)
+### 旋转加载指示器 (\_RotatingLoadingIndicator)
 
 - 1秒完整旋转
 - 渐变扫描效果
 - 蓝色主题配色
 
-### 淡入淡出文本 (_FadingText)
+### 淡入淡出文本 (\_FadingText)
 
 - 透明度变化：0.5 - 1.0
 - 1秒循环动画
 - 适用于加载提示文本
 
-### 增强版按钮 (_EnhancedButton)
+### 增强版按钮 (\_EnhancedButton)
 
 - 按压缩放效果：0.95倍
 - 渐变背景

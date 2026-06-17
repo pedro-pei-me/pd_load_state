@@ -5,6 +5,13 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## 0.2.5 - 2026-06-17
+
+### 🔧 改进优化 Improvements
+
+- 🏷️ **命名规范统一** - 将 `PdLoadStateConfigure` 重命名为 `PDLoadStateConfigure`，统一所有类的前缀为 `PD`
+- ✨ **代码一致性** - 提升代码可读性和用户体验，避免用户混淆 `PD` 和 `Pd` 前缀
+
 ## 0.2.4 - 2026-06-17
 
 ### 🔧 改进优化 Improvements

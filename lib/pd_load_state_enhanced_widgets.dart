@@ -10,7 +10,7 @@ part of 'pd_load_state.dart';
 /// - 阴影效果
 /// - 增强版按钮
 ///
-/// 通过 [PdLoadStateConfigure.useEnhancedUI] = true 启用。
+/// 通过 [PDLoadStateConfigure.useEnhancedUI] = true 启用。
 class PDLoadStateEnhancedWidgets {
   /// 创建增强版视图组件。
   ///
@@ -24,7 +24,7 @@ class PDLoadStateEnhancedWidgets {
     String? errorMessage,
   })  : backgroundColor = backgroundColor ?? Colors.transparent,
         errorMessage =
-            errorMessage ?? PdLoadStateConfigure.instance.defaultErrorText;
+            errorMessage ?? PDLoadStateConfigure.instance.defaultErrorText;
 
   /// 背景颜色。
   final Color? backgroundColor;
@@ -89,7 +89,7 @@ class PDLoadStateEnhancedWidgets {
             const SizedBox(height: 16),
             // 文本带淡入淡出效果
             _FadingText(
-              text: PdLoadStateConfigure.instance.defaultLoadingText,
+              text: PDLoadStateConfigure.instance.defaultLoadingText,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey.shade600,
@@ -151,7 +151,7 @@ class PDLoadStateEnhancedWidgets {
           ),
           const SizedBox(height: 24),
           Text(
-            PdLoadStateConfigure.instance.defaultEmptyText,
+            PDLoadStateConfigure.instance.defaultEmptyText,
             style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 18,
@@ -250,7 +250,7 @@ class PDLoadStateEnhancedWidgets {
             // 增强版重试按钮
             _EnhancedButton(
               onPressed: errorRetry,
-              text: PdLoadStateConfigure.instance.defaultErrorButtonText,
+              text: PDLoadStateConfigure.instance.defaultErrorButtonText,
             ),
           ],
         ),
@@ -307,7 +307,7 @@ class PDLoadStateEnhancedWidgets {
           ),
           const SizedBox(height: 16),
           Text(
-            PdLoadStateConfigure.instance.defaultCompletionText,
+            PDLoadStateConfigure.instance.defaultCompletionText,
             style: TextStyle(
               color: Colors.grey.shade700,
               fontSize: 16,

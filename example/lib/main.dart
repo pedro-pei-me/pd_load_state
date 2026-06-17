@@ -16,16 +16,16 @@ void main() {
 /// 通过下面方式配置的UI优先级低于通过[PDLoadStateLayout]类中参数`errorWidgetBuilder`设置的UI
 void initPdLoadStateWidgets() {
   /// 启用增强版UI设计（包含动画、渐变、阴影等效果）
-  PdLoadStateConfigure.instance.useEnhancedUI = true;
+  PDLoadStateConfigure.instance.useEnhancedUI = true;
 
   /// 可选：自定义背景颜色
-  PdLoadStateConfigure.instance.backgroundColor = Colors.grey.shade50;
+  PDLoadStateConfigure.instance.backgroundColor = Colors.grey.shade50;
 
   /// 可选：自定义文本
-  PdLoadStateConfigure.instance.defaultLoadingText = '正在加载数据...';
-  PdLoadStateConfigure.instance.defaultErrorText = '加载失败，请重试';
-  PdLoadStateConfigure.instance.defaultEmptyText = '暂无数据显示';
-  PdLoadStateConfigure.instance.defaultCompletionText = '操作完成！';
+  PDLoadStateConfigure.instance.defaultLoadingText = '正在加载数据...';
+  PDLoadStateConfigure.instance.defaultErrorText = '加载失败，请重试';
+  PDLoadStateConfigure.instance.defaultEmptyText = '暂无数据显示';
+  PDLoadStateConfigure.instance.defaultCompletionText = '操作完成！';
 }
 
 class MyApp extends StatelessWidget {

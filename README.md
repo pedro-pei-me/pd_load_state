@@ -26,7 +26,7 @@ To use this package, add the following to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  pd_load_state: ^0.2.4
+  pd_load_state: ^0.2.5
 ```
 
 执行 implement
@@ -183,11 +183,11 @@ PDLoadStateLayout(
 )
 ```
 
-`PdLoadStateConfigure`类配置,设置一次全局使用. 优先级中等 Medium priority
+`PDLoadStateConfigure`类配置,设置一次全局使用. 优先级中等 Medium priority
 
 ```dart
 /// 自定义加载中页面
-PdLoadStateConfigure.instance.loadingWidgetBuilder = (context) {
+PDLoadStateConfigure.instance.loadingWidgetBuilder = (context) {
    return SizedBox(
      width: MediaQuery.of(context).size.width,
      child: const Center(

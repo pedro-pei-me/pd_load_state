@@ -5,7 +5,7 @@ part of 'pd_load_state.dart';
 /// 如果用户没有任何自定义视图，则使用本类中的默认视图。
 /// 包含加载中、空数据、错误和完成四种状态的默认 UI 展示。
 ///
-/// 注意：如果启用了增强版 UI（[PdLoadStateConfigure.useEnhancedUI] = true），
+/// 注意：如果启用了增强版 UI（[PDLoadStateConfigure.useEnhancedUI] = true），
 /// 则会使用 [PDLoadStateEnhancedWidgets] 替代本类的默认视图。
 class PDLoadStateDefaultWidgets {
   /// 创建默认视图组件。
@@ -20,7 +20,7 @@ class PDLoadStateDefaultWidgets {
     String? errorMessage,
   })  : backgroundColor = backgroundColor ?? Colors.transparent,
         errorMessage =
-            errorMessage ?? PdLoadStateConfigure.instance.defaultErrorText;
+            errorMessage ?? PDLoadStateConfigure.instance.defaultErrorText;
 
   /// 背景颜色。
   final Color? backgroundColor;
@@ -60,7 +60,7 @@ class PDLoadStateDefaultWidgets {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  PdLoadStateConfigure.instance.defaultLoadingText,
+                  PDLoadStateConfigure.instance.defaultLoadingText,
                   style: TextStyle(fontSize: 13, color: Colors.grey[300]),
                 ),
               ],
@@ -83,7 +83,7 @@ class PDLoadStateDefaultWidgets {
         children: [
           const SizedBox(height: 10),
           Text(
-            PdLoadStateConfigure.instance.defaultEmptyText,
+            PDLoadStateConfigure.instance.defaultEmptyText,
             style: const TextStyle(color: Colors.black, fontSize: 13),
           ),
           const SizedBox(height: 15),
@@ -116,7 +116,7 @@ class PDLoadStateDefaultWidgets {
             ElevatedButton(
               onPressed: errorRetry,
               child: Text(
-                PdLoadStateConfigure.instance.defaultErrorButtonText,
+                PDLoadStateConfigure.instance.defaultErrorButtonText,
                 style: const TextStyle(fontSize: 15, color: Colors.white),
               ),
             ),
@@ -138,7 +138,7 @@ class PDLoadStateDefaultWidgets {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            PdLoadStateConfigure.instance.defaultCompletionText,
+            PDLoadStateConfigure.instance.defaultCompletionText,
             style: const TextStyle(color: Colors.black, fontSize: 13),
           ),
         ],

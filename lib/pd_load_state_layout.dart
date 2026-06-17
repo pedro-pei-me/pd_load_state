@@ -11,7 +11,7 @@ part of 'pd_load_state.dart';
 ///
 /// 支持自定义各个状态的 Widget，优先级从高到低：
 /// 1. 组件参数（如 [errorWidgetBuilder]）
-/// 2. 全局配置（[PdLoadStateConfigure]）
+/// 2. 全局配置（[PDLoadStateConfigure]）
 /// 3. 默认视图（[PDLoadStateDefaultWidgets] 或 [PDLoadStateEnhancedWidgets]）
 ///
 /// 使用示例：
@@ -171,7 +171,7 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
             widget.loadState.status == PDLoadStateEnum.reload) {
           widget.onLoading?.call();
           if (widget.loadingWidgetBuilder == null) {
-            return PdLoadStateConfigure.instance._buildLoadingWidget(ctx);
+            return PDLoadStateConfigure.instance._buildLoadingWidget(ctx);
           } else {
             return widget.loadingWidgetBuilder!.call(ctx);
           }
@@ -179,13 +179,13 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
           return widget.builder(ctx);
         } else if (widget.loadState.status == PDLoadStateEnum.empty) {
           if (widget.emptyWidgetBuilder == null) {
-            return PdLoadStateConfigure.instance._buildEmptyWidget(ctx);
+            return PDLoadStateConfigure.instance._buildEmptyWidget(ctx);
           } else {
             return widget.emptyWidgetBuilder!.call(ctx);
           }
         } else if (widget.loadState.status == PDLoadStateEnum.error) {
           if (widget.errorWidgetBuilder == null) {
-            return PdLoadStateConfigure.instance._buildErrorWidget(
+            return PDLoadStateConfigure.instance._buildErrorWidget(
               ctx,
               widget.loadState.errorMessage,
               widget.onErrorRetry,
@@ -199,7 +199,7 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
           }
         } else if (widget.loadState.status == PDLoadStateEnum.completion) {
           if (widget.completionWidgetBuilder == null) {
-            return PdLoadStateConfigure.instance._buildCompletionWidget(ctx);
+            return PDLoadStateConfigure.instance._buildCompletionWidget(ctx);
           } else {
             return widget.completionWidgetBuilder!.call(ctx);
           }

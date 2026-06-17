@@ -27,20 +27,20 @@ typedef PDErrorWidgetBuilder = Widget Function(
 /// 使用示例：
 /// ```dart
 /// // 应用启动时配置
-/// PdLoadStateConfigure.instance
+/// PDLoadStateConfigure.instance
 ///   ..defaultLoadingText = '加载中...'
 ///   ..useEnhancedUI = true;
 /// ```
-class PdLoadStateConfigure {
+class PDLoadStateConfigure {
   // 使用 late 和 final 确保实例只被创建一次
-  static final PdLoadStateConfigure _instance =
-      PdLoadStateConfigure._internal();
+  static final PDLoadStateConfigure _instance =
+      PDLoadStateConfigure._internal();
 
   // 私有构造函数，防止外部直接实例化
-  PdLoadStateConfigure._internal();
+  PDLoadStateConfigure._internal();
 
   // 静态方法获取单例实例
-  static PdLoadStateConfigure get instance {
+  static PDLoadStateConfigure get instance {
     return _instance;
   }
 

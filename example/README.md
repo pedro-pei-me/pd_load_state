@@ -5,20 +5,23 @@
 ## 功能特性
 
 ### 🎨 增强版 UI 设计
+
 - 现代化的加载动画效果
 - 优雅的渐变和阴影设计
 - 流畅的过渡动画
 - 响应式布局适配
 
 ### 📱 多平台支持
+
 - ✅ Android
-- ✅ iOS  
+- ✅ iOS
 - ✅ Web
 - ✅ macOS
 - ✅ Windows
 - ✅ Linux
 
 ### 🔄 加载状态管理
+
 - **加载中状态** - 显示加载动画和提示文本
 - **错误状态** - 显示错误信息和重试按钮
 - **空数据状态** - 显示空数据提示
@@ -28,6 +31,7 @@
 ## 快速开始
 
 ### 1. 安装依赖
+
 ```bash
 cd example
 flutter pub get
@@ -36,11 +40,13 @@ flutter pub get
 ### 2. 运行示例
 
 #### Web 平台
+
 ```bash
 flutter run -d chrome
 ```
 
 #### 移动端 (需要连接设备或启动模拟器)
+
 ```bash
 # Android
 flutter run -d android
@@ -50,6 +56,7 @@ flutter run -d ios
 ```
 
 #### 桌面端
+
 ```bash
 # macOS
 flutter run -d macos
@@ -127,12 +134,12 @@ loadState.completion();     // 显示完成页面
 ```dart
 void initPdLoadStateWidgets() {
   // 启用增强版 UI 设计
-  PdLoadStateConfigure.instance.useEnhancedUI = true;
-  
+  PDLoadStateConfigure.instance.useEnhancedUI = true;
+
   // 自定义配置
-  PdLoadStateConfigure.instance.backgroundColor = Colors.grey.shade50;
-  PdLoadStateConfigure.instance.defaultLoadingText = '正在加载数据...';
-  PdLoadStateConfigure.instance.defaultErrorText = '加载失败，请重试';
+  PDLoadStateConfigure.instance.backgroundColor = Colors.grey.shade50;
+  PDLoadStateConfigure.instance.defaultLoadingText = '正在加载数据...';
+  PDLoadStateConfigure.instance.defaultErrorText = '加载失败，请重试';
 }
 ```
 

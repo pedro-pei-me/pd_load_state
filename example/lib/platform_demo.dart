@@ -110,20 +110,20 @@ class _PlatformDemoPageState extends State<PlatformDemoPage> {
   void _configurePlatformSpecificUI() {
     if (kIsWeb) {
       // Web 平台配置
-      PdLoadStateConfigure.instance.backgroundColor = Colors.blue.shade50;
-      PdLoadStateConfigure.instance.defaultLoadingText = '正在从服务器加载...';
+      PDLoadStateConfigure.instance.backgroundColor = Colors.blue.shade50;
+      PDLoadStateConfigure.instance.defaultLoadingText = '正在从服务器加载...';
     } else if (Platform.isAndroid) {
       // Android 平台配置
-      PdLoadStateConfigure.instance.backgroundColor = Colors.green.shade50;
-      PdLoadStateConfigure.instance.defaultLoadingText = '正在加载数据...';
+      PDLoadStateConfigure.instance.backgroundColor = Colors.green.shade50;
+      PDLoadStateConfigure.instance.defaultLoadingText = '正在加载数据...';
     } else if (Platform.isIOS) {
       // iOS 平台配置
-      PdLoadStateConfigure.instance.backgroundColor = Colors.grey.shade100;
-      PdLoadStateConfigure.instance.defaultLoadingText = '载入中...';
+      PDLoadStateConfigure.instance.backgroundColor = Colors.grey.shade100;
+      PDLoadStateConfigure.instance.defaultLoadingText = '载入中...';
     } else {
       // 桌面端配置
-      PdLoadStateConfigure.instance.backgroundColor = Colors.purple.shade50;
-      PdLoadStateConfigure.instance.defaultLoadingText = '正在处理请求...';
+      PDLoadStateConfigure.instance.backgroundColor = Colors.purple.shade50;
+      PDLoadStateConfigure.instance.defaultLoadingText = '正在处理请求...';
     }
   }
 
