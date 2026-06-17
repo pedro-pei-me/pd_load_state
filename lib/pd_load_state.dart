@@ -32,11 +32,7 @@ part 'pd_load_state_layout.dart';
 part 'pd_load_state_widget.dart';
 part 'pd_load_state_configure.dart';
 part 'pd_load_state_enhanced_widgets.dart';
-
-/// 事件通道控制器
-/// 发送 视图状态 来控制显示内容
-StreamController<PDLoadState> _updateLoadState =
-    StreamController<PDLoadState>.broadcast();
+part 'pd_load_state_manager.dart';
 
 /// 视图状态控制对象
 class PDLoadState {
@@ -78,14 +74,14 @@ class PDLoadState {
     final stateChanged = _status != newValue;
     if (stateChanged) {
       _status = newValue;
-      _updateLoadState.add(this);
+      _LoadStateManager.instance.add(this);
     }
     // 仅在状态未变化且需要刷新子控件时单独触发一次，
     // 避免状态变化时重复触发导致两次 rebuild。
     if (!stateChanged &&
         isRefreshSubviews &&
         newValue == PDLoadStateEnum.success) {
-      _updateLoadState.add(this);
+      _LoadStateManager.instance.add(this);
     }
   }
 

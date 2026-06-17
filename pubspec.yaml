@@ -1,14 +1,14 @@
 name: pd_load_state
 description: Flutter plugin for request load states (loading/error/empty/success) with enhanced UI and multi-platform support.
-version: 0.2.2
+version: 0.2.3
 homepage: https://gitee.com/pedro-labs/
 repository: https://gitee.com/pedro-labs/pd_load_state
 
 license: MIT
 
 environment:
-  sdk: ">=2.17.0 <4.0.0"
-  flutter: ">=1.17.0"
+  sdk: '>=2.17.0 <4.0.0'
+  flutter: '>=1.17.0'
 
 dependencies:
   flutter:

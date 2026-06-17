@@ -76,11 +76,12 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
   void initState() {
     super.initState();
 
-    _subscription = _updateLoadState.stream.listen((value) {
-      if (mounted && widget.loadState.identifier == value.identifier) {
-        setState(() {
-          widget.onStateChanged?.call(value.status);
-        });
+    _LoadStateManager.instance.onListen();
+    _subscription = _LoadStateManager.instance.stream
+        .where((state) => state.identifier == widget.loadState.identifier)
+        .listen((state) {
+      if (mounted) {
+        setState(() => widget.onStateChanged?.call(state.status));
       }
     });
   }
@@ -88,6 +89,7 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
   @override
   void dispose() {
     _subscription.cancel();
+    _LoadStateManager.instance.onCancel();
     if (kDebugMode) {
       debugPrint(
         '[ debug ] PDLoadStateLayout dispose identifier: ${widget.loadState.identifier}',
