@@ -20,6 +20,38 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+/// 一个用于管理网络请求不同 UI 状态的 Flutter 库。
+///
+/// 本库提供了一种简单高效的方式，根据请求状态（加载中、成功、错误、空数据、完成）
+/// 显示不同的 UI 视图。支持自定义组件、全局配置以及带动画和渐变效果的增强版 UI。
+///
+/// ## 功能特性
+/// - 🎯 多状态管理（加载中/成功/错误/空数据/完成）
+/// - 🎨 增强版 UI，支持动画和渐变效果（可选）
+/// - 📱 多平台支持（Android、iOS、Web、macOS、Windows、Linux）
+/// - ⚡ 轻量级且易于使用的 API
+/// - 🔄 基于 Stream 的状态广播，支持自动清理
+///
+/// ## 快速开始
+/// 添加到你的 `pubspec.yaml`：
+/// ```yaml
+/// dependencies:
+///   pd_load_state: ^0.2.3
+/// ```
+///
+/// ## 使用示例
+/// ```dart
+/// final loadState = PDLoadState('unique_id');
+///
+/// PDLoadStateLayout(
+///   loadState: loadState,
+///   onLoading: () => fetchData(),
+///   builder: (context) => MyContentWidget(),
+/// )
+/// ```
+///
+/// 更多信息，请参阅 [README](https://pub.dev/packages/pd_load_state)
+/// 和 [示例](https://pub.dev/packages/pd_load_state/example)。
 library pd_load_state;
 
 import 'dart:async';
@@ -78,9 +110,7 @@ class PDLoadState {
     }
     // 仅在状态未变化且需要刷新子控件时单独触发一次，
     // 避免状态变化时重复触发导致两次 rebuild。
-    if (!stateChanged &&
-        isRefreshSubviews &&
-        newValue == PDLoadStateEnum.success) {
+    if (!stateChanged && isRefreshSubviews && newValue == PDLoadStateEnum.success) {
       _LoadStateManager.instance.add(this);
     }
   }
