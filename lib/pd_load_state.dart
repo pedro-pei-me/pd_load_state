@@ -139,9 +139,7 @@ class PDLoadState {
     }
     // 仅在状态未变化且需要刷新子控件时单独触发一次，
     // 避免状态变化时重复触发导致两次 rebuild。
-    if (!stateChanged &&
-        isRefreshSubviews &&
-        newValue == PDLoadStateEnum.success) {
+    if (!stateChanged && isRefreshSubviews && newValue == PDLoadStateEnum.success) {
       _LoadStateManager.instance.add(this);
     }
   }
@@ -191,5 +189,39 @@ class PDLoadState {
   /// 通常在数据提交或保存成功后调用，显示完成提示。
   void completion() {
     _update(PDLoadStateEnum.completion);
+  }
+}
+
+/// 加载状态测试工具类。
+///
+/// 提供测试辅助方法，用于单元测试或集成测试中释放资源。
+///
+/// 使用示例：
+/// ```dart
+/// // 在测试的 setUp 中
+/// setUp(() {
+///   PDLoadStateTestUtils.reset();
+/// });
+///
+/// // 在测试的 tearDown 中
+/// tearDown(() {
+///   PDLoadStateTestUtils.disposeAll();
+/// });
+/// ```
+class PDLoadStateTestUtils {
+  /// 释放所有加载状态管理器的资源。
+  ///
+  /// 关闭 Stream 控制器并重置监听者计数。
+  /// 通常在单元测试的 tearDown 或应用退出时调用。
+  static void disposeAll() {
+    _LoadStateManager.instance.dispose();
+  }
+
+  /// 重置管理器到初始状态。
+  ///
+  /// 先释放现有资源，然后重新创建管理器。
+  /// 适用于需要在测试之间完全隔离的场景。
+  static void reset() {
+    _LoadStateManager.instance.dispose();
   }
 }
