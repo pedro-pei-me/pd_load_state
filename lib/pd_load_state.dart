@@ -66,8 +66,27 @@ part 'pd_load_state_configure.dart';
 part 'pd_load_state_enhanced_widgets.dart';
 part 'pd_load_state_manager.dart';
 
-/// 视图状态控制对象
+/// 视图状态控制对象，用于管理和切换 UI 的加载状态。
+///
+/// 通过此类可以控制 [PDLoadStateLayout] 展示不同的状态视图。
+/// 每个实例通过唯一的 [identifier] 进行标识，避免多个组件间的状态冲突。
+///
+/// 使用示例：
+/// ```dart
+/// final loadState = PDLoadState('my_page');
+///
+/// // 切换状态
+/// loadState.loading();
+/// loadState.success();
+/// loadState.error(msg: '网络错误');
+/// ```
 class PDLoadState {
+  /// 创建视图状态控制对象。
+  ///
+  /// 参数说明：
+  /// - [id] 控件标识，尽可能唯一，用来区别不同的组件对象。
+  /// - [stateEnum] 初始状态，默认为 [PDLoadStateEnum.loading]。
+  /// - [isRefreshSubviews] 每次请求成功后是否刷新子控件，默认 true。
   PDLoadState(
     String id, {
     PDLoadStateEnum? stateEnum,
@@ -76,32 +95,42 @@ class PDLoadState {
         _status = stateEnum ?? PDLoadStateEnum.loading,
         isRefreshSubviews = isRefreshSubviews ?? true;
 
-  /// 控件标识， 尽可能唯一
-  /// 用来区别不同的组件对象, 避免刷新错误.
-  /// 在 debug 模式组件销毁时会打印并携带这个字段信息.
+  /// 控件标识，尽可能唯一。
+  ///
+  /// 用来区别不同的组件对象，避免刷新错误。
+  /// 在 debug 模式组件销毁时会打印并携带这个字段信息。
   final String identifier;
 
-  /// 展示在错误视图上的信息
+  /// 展示在错误视图上的错误信息。
+  ///
+  /// 调用 [error] 方法时传入，会在错误页面中显示。
   String? errorMessage;
 
-  /// 每次请求成功后是否刷新子控件
-  /// - [isRefreshSubviews] 是否刷新子控件 默认 true 刷新
+  /// 每次请求成功后是否刷新子控件。
+  ///
+  /// 默认为 true，表示每次成功状态都会刷新子视图。
   bool isRefreshSubviews;
 
-  /// widget的状态， 默认是加载中
+  /// widget 的内部状态，默认是加载中。
   PDLoadStateEnum _status;
 
-  /// 获取当前状态 只读.
+  /// 获取当前状态（只读）。
+  ///
+  /// 返回当前的 [PDLoadStateEnum] 枚举值。
   PDLoadStateEnum get status => _status;
 
-  /// 监听 setter 方法来刷新UI 或者调用 updateBy 函数刷新都可以
-  /// - [newValue] 新的状态
+  /// 设置新状态并刷新 UI。
+  ///
+  /// 通过 setter 方法或直接调用 [updateBy] 函数都可以刷新界面。
+  /// - [newValue] 新的状态值。
   set status(PDLoadStateEnum newValue) {
     _update(newValue);
   }
 
-  /// 开始刷新UI
-  /// - [newValue] 新的状态
+  /// 内部方法：开始刷新 UI。
+  ///
+  /// 当状态发生变化时，通过 Stream 广播通知所有监听的 [PDLoadStateLayout]。
+  /// - [newValue] 新的状态值。
   void _update(PDLoadStateEnum newValue) {
     final stateChanged = _status != newValue;
     if (stateChanged) {
@@ -110,24 +139,32 @@ class PDLoadState {
     }
     // 仅在状态未变化且需要刷新子控件时单独触发一次，
     // 避免状态变化时重复触发导致两次 rebuild。
-    if (!stateChanged && isRefreshSubviews && newValue == PDLoadStateEnum.success) {
+    if (!stateChanged &&
+        isRefreshSubviews &&
+        newValue == PDLoadStateEnum.success) {
       _LoadStateManager.instance.add(this);
     }
   }
 
-  /// 调用此函数 刷新UI
-  /// - [newValue] 新的状态
+  /// 调用此函数刷新 UI。
+  ///
+  /// 与直接设置 [status] 属性效果相同。
+  /// - [newValue] 新的状态值。
   void updateBy(PDLoadStateEnum newValue) {
     _update(newValue);
   }
 
-  /// 切换到loading状态
+  /// 切换到加载中状态。
+  ///
+  /// 通常在发起网络请求前调用。
   void loading() {
     _update(PDLoadStateEnum.loading);
   }
 
-  /// 切换到报错状态
-  /// - [msg] 报错信息, 可选 有默认值
+  /// 切换到报错状态。
+  ///
+  /// 通常在网络请求失败时调用。
+  /// - [msg] 报错信息，可选参数，有默认值。
   void error({String? msg}) {
     if (msg != null && msg.isNotEmpty) {
       errorMessage = msg;
@@ -135,17 +172,23 @@ class PDLoadState {
     _update(PDLoadStateEnum.error);
   }
 
-  /// 切换到空数据状态
+  /// 切换到空数据状态。
+  ///
+  /// 通常在网络请求成功但返回数据为空时调用。
   void empty() {
     _update(PDLoadStateEnum.empty);
   }
 
-  /// 切换到请求成功状态
+  /// 切换到请求成功状态。
+  ///
+  /// 通常在网络请求成功且有数据返回时调用。
   void success() {
     _update(PDLoadStateEnum.success);
   }
 
-  /// 切换到数据保存成功时状态
+  /// 切换到数据保存成功时状态。
+  ///
+  /// 通常在数据提交或保存成功后调用，显示完成提示。
   void completion() {
     _update(PDLoadStateEnum.completion);
   }

@@ -1,17 +1,23 @@
 part of 'pd_load_state.dart';
 
-/// 增强版的默认状态视图组件
-/// 提供更丰富的动画效果、更好的视觉层次和用户体验
+/// 增强版的默认状态视图组件。
+///
+/// 提供更丰富的动画效果、更好的视觉层次和用户体验，包括：
+/// - 脉冲动画容器
+/// - 旋转加载指示器
+/// - 淡入淡出文本
+/// - 渐变背景
+/// - 阴影效果
+/// - 增强版按钮
+///
+/// 通过 [PdLoadStateConfigure.useEnhancedUI] = true 启用。
 class PDLoadStateEnhancedWidgets {
-  /// 背景颜色
-  final Color? backgroundColor;
-
-  /// 报错时的展示消息文本
-  final String errorMessage;
-
-  /// 加载错误页面中按钮点击事件回调
-  final VoidCallback? errorRetry;
-
+  /// 创建增强版视图组件。
+  ///
+  /// 参数说明：
+  /// - [backgroundColor] 背景颜色，默认为透明。
+  /// - [errorRetry] 错误页面重试按钮回调。
+  /// - [errorMessage] 错误信息文本，默认使用全局配置。
   PDLoadStateEnhancedWidgets({
     Color? backgroundColor,
     this.errorRetry,
@@ -20,7 +26,18 @@ class PDLoadStateEnhancedWidgets {
         errorMessage =
             errorMessage ?? PdLoadStateConfigure.instance.defaultErrorText;
 
-  /// 增强版加载中视图 - 带有丰富的动画效果
+  /// 背景颜色。
+  final Color? backgroundColor;
+
+  /// 报错时的展示消息文本。
+  final String errorMessage;
+
+  /// 加载错误页面中按钮点击事件回调。
+  final VoidCallback? errorRetry;
+
+  /// 增强版加载中视图 - 带有丰富的动画效果。
+  ///
+  /// 包含脉冲动画容器、旋转加载指示器和淡入淡出文本。
   Widget get loadingView {
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
@@ -85,7 +102,9 @@ class PDLoadStateEnhancedWidgets {
     });
   }
 
-  /// 增强版空数据视图 - 更友好的设计
+  /// 增强版空数据视图 - 更友好的设计。
+  ///
+  /// 包含圆形图标容器、主标题和副标题。
   Widget get noDateView {
     return Container(
       decoration: BoxDecoration(
@@ -152,7 +171,9 @@ class PDLoadStateEnhancedWidgets {
     );
   }
 
-  /// 增强版错误视图 - 更好的视觉层次
+  /// 增强版错误视图 - 更好的视觉层次。
+  ///
+  /// 包含错误图标容器、错误标题、错误信息框和增强版重试按钮。
   Widget get errorView {
     return Container(
       decoration: BoxDecoration(
@@ -237,7 +258,9 @@ class PDLoadStateEnhancedWidgets {
     );
   }
 
-  /// 增强版完成视图
+  /// 增强版完成视图。
+  ///
+  /// 包含完成图标容器和成功提示文本。
   Widget get completionView {
     return Container(
       decoration: BoxDecoration(
@@ -297,11 +320,16 @@ class PDLoadStateEnhancedWidgets {
   }
 }
 
-/// 脉冲动画容器
+/// 内部组件：脉冲动画容器。
+///
+/// 实现缩放脉冲动画效果，用于加载中视图的图标容器。
 class _PulsingContainer extends StatefulWidget {
-  final Widget child;
-
+  /// 创建脉冲动画容器。
+  /// - [child] 子组件。
   const _PulsingContainer({required this.child});
+
+  /// 子组件。
+  final Widget child;
 
   @override
   _PulsingContainerState createState() => _PulsingContainerState();
@@ -345,7 +373,9 @@ class _PulsingContainerState extends State<_PulsingContainer>
   }
 }
 
-/// 旋转加载指示器
+/// 内部组件：旋转加载指示器。
+///
+/// 实现旋转动画效果，用于加载中视图的加载指示器。
 class _RotatingLoadingIndicator extends StatefulWidget {
   @override
   _RotatingLoadingIndicatorState createState() =>
@@ -401,12 +431,20 @@ class _RotatingLoadingIndicatorState extends State<_RotatingLoadingIndicator>
   }
 }
 
-/// 淡入淡出文本
+/// 内部组件：淡入淡出文本。
+///
+/// 实现透明度渐变动画效果，用于加载中视图的提示文本。
 class _FadingText extends StatefulWidget {
-  final String text;
-  final TextStyle style;
-
+  /// 创建淡入淡出文本。
+  /// - [text] 文本内容。
+  /// - [style] 文本样式。
   const _FadingText({required this.text, required this.style});
+
+  /// 文本内容。
+  final String text;
+
+  /// 文本样式。
+  final TextStyle style;
 
   @override
   _FadingTextState createState() => _FadingTextState();
@@ -450,12 +488,20 @@ class _FadingTextState extends State<_FadingText>
   }
 }
 
-/// 增强版按钮
+/// 内部组件：增强版按钮。
+///
+/// 实现按压动画和渐变背景效果，用于错误视图的重试按钮。
 class _EnhancedButton extends StatefulWidget {
-  final VoidCallback? onPressed;
-  final String text;
-
+  /// 创建增强版按钮。
+  /// - [onPressed] 点击回调。
+  /// - [text] 按钮文本。
   const _EnhancedButton({required this.onPressed, required this.text});
+
+  /// 点击回调。
+  final VoidCallback? onPressed;
+
+  /// 按钮文本。
+  final String text;
 
   @override
   _EnhancedButtonState createState() => _EnhancedButtonState();

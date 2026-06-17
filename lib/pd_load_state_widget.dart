@@ -1,17 +1,19 @@
 part of 'pd_load_state.dart';
 
-/// 默认的各个状态的视图 本类的视图级别最低.
-/// 如果用户没有任何的自定义视图,则使用本类中的默认视图
+/// 默认的各个状态的视图组件，本类的视图级别最低。
+///
+/// 如果用户没有任何自定义视图，则使用本类中的默认视图。
+/// 包含加载中、空数据、错误和完成四种状态的默认 UI 展示。
+///
+/// 注意：如果启用了增强版 UI（[PdLoadStateConfigure.useEnhancedUI] = true），
+/// 则会使用 [PDLoadStateEnhancedWidgets] 替代本类的默认视图。
 class PDLoadStateDefaultWidgets {
-  /// 背景颜色
-  final Color? backgroundColor;
-
-  /// 报错时的展示消息文本
-  final String errorMessage;
-
-  /// 加载错误页面中按钮点击事件回调
-  final VoidCallback? errorRetry;
-
+  /// 创建默认视图组件。
+  ///
+  /// 参数说明：
+  /// - [backgroundColor] 背景颜色，默认为透明。
+  /// - [errorRetry] 错误页面重试按钮回调。
+  /// - [errorMessage] 错误信息文本，默认使用全局配置。
   PDLoadStateDefaultWidgets({
     Color? backgroundColor,
     this.errorRetry,
@@ -20,7 +22,18 @@ class PDLoadStateDefaultWidgets {
         errorMessage =
             errorMessage ?? PdLoadStateConfigure.instance.defaultErrorText;
 
-  /// 加载中视图 优先级最低
+  /// 背景颜色。
+  final Color? backgroundColor;
+
+  /// 报错时的展示消息文本。
+  final String errorMessage;
+
+  /// 加载错误页面中按钮点击事件回调。
+  final VoidCallback? errorRetry;
+
+  /// 加载中视图，优先级最低。
+  ///
+  /// 显示下载图标和加载动画，使用灰色调。
   Widget get loadingView {
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
@@ -58,7 +71,9 @@ class PDLoadStateDefaultWidgets {
     });
   }
 
-  /// 空数据 优先级最低
+  /// 空数据视图，优先级最低。
+  ///
+  /// 显示空数据图标和提示文本。
   Widget get noDateView {
     return Container(
       color: backgroundColor,
@@ -80,7 +95,9 @@ class PDLoadStateDefaultWidgets {
     );
   }
 
-  /// 错误视图 优先级最低
+  /// 错误视图，优先级最低。
+  ///
+  /// 显示错误信息和重试按钮，用户可以点击重试。
   Widget get errorView {
     return Container(
       color: backgroundColor,
@@ -110,7 +127,9 @@ class PDLoadStateDefaultWidgets {
     );
   }
 
-  /// 完成视图 优先级最低
+  /// 完成视图，优先级最低。
+  ///
+  /// 显示操作成功的提示文本。
   Widget get completionView {
     return Container(
       color: backgroundColor,
