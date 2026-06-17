@@ -26,7 +26,7 @@ To use this package, add the following to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  pd_load_state: ^0.2.3
+  pd_load_state: ^0.2.4
 ```
 
 执行 implement

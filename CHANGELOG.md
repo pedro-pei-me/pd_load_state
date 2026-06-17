@@ -5,6 +5,15 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## 0.2.4 - 2026-06-17
+
+### 🔧 改进优化 Improvements
+
+- 📝 **文档注释完善** - 为所有公共 API 添加完整的 dartdoc 注释，文档覆盖率达 98.7%
+- 🧪 **测试工具类** - 新增 `PDLoadStateTestUtils` 公开测试工具类，支持测试时资源释放和状态重置
+- 🎯 **枚举扩展** - 为 `PDLoadStateEnum` 添加便捷的扩展方法（`description`、`isLoading`、`isSuccess` 等）
+- 📚 **API 文档优化** - 完善所有类、方法、属性的文档注释，提升 pana 评分
+
 ## 0.2.3 - 2026-06-17
 
 ### 🔧 改进优化 Improvements
