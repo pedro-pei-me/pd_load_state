@@ -219,10 +219,10 @@ class _MyHomePageState extends State<MyHomePage> {
   /// 构建内容组件
   Widget _buildContentWidget() {
     if (_dataList.isEmpty) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Icon(
               Icons.check_circle_outline,
               size: 64,
@@ -344,10 +344,10 @@ class _CustomDemoPageState extends State<CustomDemoPage> {
         },
         // 自定义加载页面
         loadingWidgetBuilder: (context) {
-          return const Center(
+          return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 CircularProgressIndicator(
                   strokeWidth: 3,
                 ),

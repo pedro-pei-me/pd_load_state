@@ -33,8 +33,7 @@ typedef PDErrorWidgetBuilder = Widget Function(
 /// ```
 class PDLoadStateConfigure {
   // 使用 late 和 final 确保实例只被创建一次
-  static final PDLoadStateConfigure _instance =
-      PDLoadStateConfigure._internal();
+  static final PDLoadStateConfigure _instance = PDLoadStateConfigure._internal();
 
   // 私有构造函数，防止外部直接实例化
   PDLoadStateConfigure._internal();
@@ -106,8 +105,7 @@ class PDLoadStateConfigure {
   /// 1. 全局自定义错误视图
   /// 2. 增强版错误视图
   /// 3. 默认错误视图
-  Widget _buildErrorWidget(
-      BuildContext context, String? errorMessage, VoidCallback? onRetry) {
+  Widget _buildErrorWidget(BuildContext context, String? errorMessage, VoidCallback? onRetry) {
     if (errorWidgetBuilder != null) {
       return errorWidgetBuilder!.call(
         context,

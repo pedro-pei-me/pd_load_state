@@ -167,8 +167,7 @@ class _PDLoadStateLayoutState extends State<PDLoadStateLayout> {
       margin: widget.margin,
       color: widget.backgroundColor,
       child: Builder(builder: (ctx) {
-        if (widget.loadState.status == PDLoadStateEnum.loading ||
-            widget.loadState.status == PDLoadStateEnum.reload) {
+        if (widget.loadState.status == PDLoadStateEnum.loading || widget.loadState.status == PDLoadStateEnum.reload) {
           widget.onLoading?.call();
           if (widget.loadingWidgetBuilder == null) {
             return PDLoadStateConfigure.instance._buildLoadingWidget(ctx);

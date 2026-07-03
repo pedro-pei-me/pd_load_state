@@ -23,8 +23,7 @@ class PDLoadStateEnhancedWidgets {
     this.errorRetry,
     String? errorMessage,
   })  : backgroundColor = backgroundColor ?? Colors.transparent,
-        errorMessage =
-            errorMessage ?? PDLoadStateConfigure.instance.defaultErrorText;
+        errorMessage = errorMessage ?? PDLoadStateConfigure.instance.defaultErrorText;
 
   /// 背景颜色。
   final Color? backgroundColor;
@@ -335,8 +334,7 @@ class _PulsingContainer extends StatefulWidget {
   _PulsingContainerState createState() => _PulsingContainerState();
 }
 
-class _PulsingContainerState extends State<_PulsingContainer>
-    with SingleTickerProviderStateMixin {
+class _PulsingContainerState extends State<_PulsingContainer> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -378,12 +376,10 @@ class _PulsingContainerState extends State<_PulsingContainer>
 /// 实现旋转动画效果，用于加载中视图的加载指示器。
 class _RotatingLoadingIndicator extends StatefulWidget {
   @override
-  _RotatingLoadingIndicatorState createState() =>
-      _RotatingLoadingIndicatorState();
+  _RotatingLoadingIndicatorState createState() => _RotatingLoadingIndicatorState();
 }
 
-class _RotatingLoadingIndicatorState extends State<_RotatingLoadingIndicator>
-    with SingleTickerProviderStateMixin {
+class _RotatingLoadingIndicatorState extends State<_RotatingLoadingIndicator> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -450,8 +446,7 @@ class _FadingText extends StatefulWidget {
   _FadingTextState createState() => _FadingTextState();
 }
 
-class _FadingTextState extends State<_FadingText>
-    with SingleTickerProviderStateMixin {
+class _FadingTextState extends State<_FadingText> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 

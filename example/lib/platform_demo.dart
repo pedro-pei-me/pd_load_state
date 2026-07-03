@@ -283,11 +283,8 @@ class _PlatformDemoPageState extends State<PlatformDemoPage> {
             ),
             const SizedBox(height: 12),
             if (kIsWeb) ..._buildWebActions(),
-            if (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
-              ..._buildMobileActions(),
-            if (!kIsWeb &&
-                (Platform.isMacOS || Platform.isWindows || Platform.isLinux))
-              ..._buildDesktopActions(),
+            if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) ..._buildMobileActions(),
+            if (!kIsWeb && (Platform.isMacOS || Platform.isWindows || Platform.isLinux)) ..._buildDesktopActions(),
           ],
         ),
       ),

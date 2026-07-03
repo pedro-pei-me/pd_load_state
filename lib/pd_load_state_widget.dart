@@ -19,8 +19,7 @@ class PDLoadStateDefaultWidgets {
     this.errorRetry,
     String? errorMessage,
   })  : backgroundColor = backgroundColor ?? Colors.transparent,
-        errorMessage =
-            errorMessage ?? PDLoadStateConfigure.instance.defaultErrorText;
+        errorMessage = errorMessage ?? PDLoadStateConfigure.instance.defaultErrorText;
 
   /// 背景颜色。
   final Color? backgroundColor;
