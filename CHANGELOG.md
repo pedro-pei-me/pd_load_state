@@ -5,6 +5,34 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## 0.3.0 - 2026-07-03
+
+### 🎯 新增功能 New Features
+
+- 📦 **泛型数据携带** - `PDLoadState<T>` 支持泛型数据携带，成功状态时可传递强类型数据
+- 🔧 **双 Builder 设计** - 新增 `dataBuilder` 参数，支持带数据的成功视图构建，完全向后兼容旧 API
+- 🎨 **抽象基类重构** - 新增 `PDLoadStateBase` 抽象基类，`PDLoadState<T>` 继承自基类，支持 Stream 广播
+- 📝 **类型定义扩展** - 新增 `PDDataWidgetBuilder<T>` 类型定义，支持带数据的视图构建器
+- ⚡ **typedef 便捷别名** - 新增 `PDLoadStateVoid` 作为 `PDLoadState<void>` 的便捷别名
+
+### 🔧 改进优化 Improvements
+
+- 📖 **API 文档更新** - 更新所有公共 API 的文档注释，包含泛型数据携带的使用说明
+- 🎯 **示例项目增强** - 新增 `DataDemoPage` 演示页面，展示单条数据和集合数据的携带用法
+- 🔄 **Stream 类型优化** - `_LoadStateManager` 的 Stream 使用 `PDLoadStateBase` 类型，兼容泛型子类
+- 📊 **代码结构优化** - 重构状态管理架构，支持泛型扩展和类型安全
+
+### 📖 向后兼容性 Backward Compatibility
+
+- ✅ **完全兼容** - 旧 API `builder: (context) => ...` 无需修改即可继续使用
+- ✅ **无缝升级** - 新增 `dataBuilder` 为可选参数，用户可选择性使用新功能
+- ✅ **类型推断** - 未指定泛型时自动推断为 `dynamic`，保持旧代码兼容性
+
+### 📦 示例项目更新 Example Project
+
+- 🚀 **数据携带演示** - 新增 `data_demo.dart`，演示单条数据和集合数据的携带用法
+- 🎮 **导航入口** - 在主页面添加数据携带演示的导航按钮
+
 ## 0.2.5 - 2026-06-17
 
 ### 🔧 改进优化 Improvements

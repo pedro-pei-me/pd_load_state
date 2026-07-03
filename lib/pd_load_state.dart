@@ -20,17 +20,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-/// 一个用于管理网络请求不同 UI 状态的 Flutter 库。
+/// 一个用于管理网络请求不同 UI 状态的 Flutter 库，支持泛型数据携带。
 ///
 /// 本库提供了一种简单高效的方式，根据请求状态（加载中、成功、错误、空数据、完成）
 /// 显示不同的 UI 视图。支持自定义组件、全局配置以及带动画和渐变效果的增强版 UI。
+/// 新增泛型数据携带能力，可在成功状态时传递强类型数据。
 ///
 /// ## 功能特性
 /// - 🎯 多状态管理（加载中/成功/错误/空数据/完成）
+/// - 📦 泛型数据携带，支持强类型数据传递
 /// - 🎨 增强版 UI，支持动画和渐变效果（可选）
 /// - 📱 多平台支持（Android、iOS、Web、macOS、Windows、Linux）
 /// - ⚡ 轻量级且易于使用的 API
 /// - 🔄 基于 Stream 的状态广播，支持自动清理
+/// - 📖 完全向后兼容，旧代码无需修改
 ///
 /// ## 快速开始
 /// 添加到你的 `pubspec.yaml`：
@@ -41,12 +44,23 @@
 ///
 /// ## 使用示例
 /// ```dart
+/// // 旧 API（向后兼容）
 /// final loadState = PDLoadState('unique_id');
 ///
 /// PDLoadStateLayout(
 ///   loadState: loadState,
 ///   onLoading: () => fetchData(),
 ///   builder: (context) => MyContentWidget(),
+/// )
+///
+/// // 新 API（支持数据携带）
+/// final loadState = PDLoadState<User>('user_page');
+/// loadState.success(data: fetchedUser);
+///
+/// PDLoadStateLayout<User>(
+///   loadState: loadState,
+///   onLoading: () => fetchUser(),
+///   dataBuilder: (context, user) => UserProfile(user: user),
 /// )
 /// ```
 ///
@@ -66,33 +80,22 @@ part 'pd_load_state_configure.dart';
 part 'pd_load_state_enhanced_widgets.dart';
 part 'pd_load_state_manager.dart';
 
-/// 视图状态控制对象，用于管理和切换 UI 的加载状态。
+/// 视图状态控制对象的抽象基类。
 ///
-/// 通过此类可以控制 [PDLoadStateLayout] 展示不同的状态视图。
-/// 每个实例通过唯一的 [identifier] 进行标识，避免多个组件间的状态冲突。
-///
-/// 使用示例：
-/// ```dart
-/// final loadState = PDLoadState('my_page');
-///
-/// // 切换状态
-/// loadState.loading();
-/// loadState.success();
-/// loadState.error(msg: '网络错误');
-/// ```
-class PDLoadState {
-  /// 创建视图状态控制对象。
+/// 定义所有状态控制对象共享的基础属性和方法，用于 Stream 广播。
+/// 子类 [PDLoadState<T>] 提供泛型数据携带能力。
+abstract class PDLoadStateBase {
+  /// 创建视图状态控制对象基类。
   ///
   /// 参数说明：
-  /// - [id] 控件标识，尽可能唯一，用来区别不同的组件对象。
+  /// - [identifier] 控件标识，尽可能唯一，用来区别不同的组件对象。
   /// - [stateEnum] 初始状态，默认为 [PDLoadStateEnum.loading]。
   /// - [isRefreshSubviews] 每次请求成功后是否刷新子控件，默认 true。
-  PDLoadState(
-    String id, {
+  PDLoadStateBase(
+    this.identifier, {
     PDLoadStateEnum? stateEnum,
     bool? isRefreshSubviews,
-  })  : identifier = id,
-        _status = stateEnum ?? PDLoadStateEnum.loading,
+  })  : _status = stateEnum ?? PDLoadStateEnum.loading,
         isRefreshSubviews = isRefreshSubviews ?? true;
 
   /// 控件标识，尽可能唯一。
@@ -104,6 +107,7 @@ class PDLoadState {
   /// 展示在错误视图上的错误信息。
   ///
   /// 调用 [error] 方法时传入，会在错误页面中显示。
+  /// 如果有携带结构化错误的需求，可以通过 errorMessage 传递 JSON 字符串或在业务层自行处理。
   String? errorMessage;
 
   /// 每次请求成功后是否刷新子控件。
@@ -180,6 +184,7 @@ class PDLoadState {
   /// 切换到请求成功状态。
   ///
   /// 通常在网络请求成功且有数据返回时调用。
+  /// 子类 [PDLoadState<T>] 会覆盖此方法以支持数据携带。
   void success() {
     _update(PDLoadStateEnum.success);
   }
@@ -191,6 +196,62 @@ class PDLoadState {
     _update(PDLoadStateEnum.completion);
   }
 }
+
+/// 视图状态控制对象，用于管理和切换 UI 的加载状态，并支持携带泛型数据。
+///
+/// 通过此类可以控制 [PDLoadStateLayout] 展示不同的状态视图。
+/// 每个实例通过唯一的 [identifier] 进行标识，避免多个组件间的状态冲突。
+///
+/// 使用示例：
+/// ```dart
+/// // 不带数据的状态（兼容旧用法）
+/// final loadState = PDLoadState('my_page');
+///
+/// // 带数据的状态
+/// final loadState = PDLoadState<User>('user_page');
+/// loadState.success(data: user);
+///
+/// // 切换状态
+/// loadState.loading();
+/// loadState.success(data: fetchedData);
+/// loadState.error(msg: '网络错误');
+/// ```
+///
+/// 泛型参数 [T] 表示成功状态时携带的数据类型。
+/// 如果不需要携带数据，可以使用 [PDLoadState<void>] 或直接省略类型参数。
+class PDLoadState<T> extends PDLoadStateBase {
+  /// 创建视图状态控制对象。
+  ///
+  /// 参数说明：
+  /// - [id] 控件标识，尽可能唯一，用来区别不同的组件对象。
+  /// - [stateEnum] 初始状态，默认为 [PDLoadStateEnum.loading]。
+  /// - [isRefreshSubviews] 每次请求成功后是否刷新子控件，默认 true。
+  PDLoadState(
+    String id, {
+    PDLoadStateEnum? stateEnum,
+    bool? isRefreshSubviews,
+  }) : super(id, stateEnum: stateEnum, isRefreshSubviews: isRefreshSubviews);
+
+  /// 成功状态时携带的数据。
+  ///
+  /// 通过 [success(data: ...)] 方法设置，在 [PDLoadStateLayout.dataBuilder] 中可访问。
+  T? data;
+
+  /// 切换到请求成功状态，并可选携带数据。
+  ///
+  /// 通常在网络请求成功且有数据返回时调用。
+  /// - [data] 成功时返回的数据，会传递给 [PDLoadStateLayout.dataBuilder]。
+  @override
+  void success({T? data}) {
+    this.data = data;
+    super.success();
+  }
+}
+
+/// 无数据类型的状态控制对象，用于向后兼容。
+///
+/// 等同于 `PDLoadState<void>`，适用于不需要携带数据的场景。
+typedef PDLoadStateVoid = PDLoadState<void>;
 
 /// 加载状态测试工具类。
 ///

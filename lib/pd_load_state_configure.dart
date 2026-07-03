@@ -19,6 +19,17 @@ typedef PDErrorWidgetBuilder = Widget Function(
   VoidCallback? onRetry,
 );
 
+/// 带数据的视图构建器函数类型。
+///
+/// 用于 [PDLoadStateLayout] 的成功视图构建，支持携带泛型数据。
+/// 参数说明：
+/// - [context] 构建上下文。
+/// - [data] 成功状态时携带的数据，类型为泛型 [T]。
+typedef PDDataWidgetBuilder<T> = Widget Function(
+  BuildContext context,
+  T? data,
+);
+
 /// 全局加载状态配置单例类。
 ///
 /// 通过此类可以全局自定义各个状态的视图、文本提示和样式。

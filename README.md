@@ -17,6 +17,8 @@ allowing for quick addition of UI pages with different request states to a certa
 > 📱 **多平台支持** - 完美适配 Android、iOS、Web、macOS、Windows、Linux
 >
 > ⚡ **轻量高效** - 简单易用的API设计，快速集成到现有项目
+>
+> 📦 **泛型数据携带** - 支持强类型数据传递，成功状态时可直接携带业务数据
 
 ## 安装 Installation
 
@@ -26,7 +28,7 @@ To use this package, add the following to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  pd_load_state: ^0.2.5
+  pd_load_state: ^0.3.0
 ```
 
 执行 implement
@@ -212,6 +214,118 @@ PDLoadStateDefaultWidgets(backgroundColor: backgroundColor).loadingView;
 更多详细用法请参考`/example/lib/main.dart`文件中的代码。
 
 For more detailed usage, please refer to the code in the `/example/lib/main.dart`.
+
+## 泛型数据携带 Generic Data Carrying
+
+从 v0.3.0 开始，插件支持泛型数据携带，可在成功状态时传递强类型数据。
+
+### 基本用法 Basic Usage
+
+```dart
+import 'package:pd_load_state/pd_load_state.dart';
+
+class User {
+  final String id;
+  final String name;
+  User({required this.id, required this.name});
+}
+
+class UserProfilePage extends StatefulWidget {
+  const UserProfilePage({super.key});
+
+  @override
+  State<UserProfilePage> createState() => _UserProfilePageState();
+}
+
+class _UserProfilePageState extends State<UserProfilePage> {
+  // 使用泛型创建状态对象
+  late PDLoadState<User> _loadState;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadState = PDLoadState<User>('user_profile');
+    _fetchUser();
+  }
+
+  void _fetchUser() {
+    _loadState.loading();
+    Future.delayed(const Duration(seconds: 2), () {
+      final user = User(id: '1', name: '张三');
+      // 成功时携带数据
+      _loadState.success(data: user);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PDLoadStateLayout<User>(
+      loadState: _loadState,
+      onErrorRetry: _fetchUser,
+      // 使用 dataBuilder 接收数据
+      dataBuilder: (context, user) {
+        if (user == null) return const Text('无数据');
+        return Center(
+          child: Column(
+            children: [
+              Text('用户ID: ${user.id}'),
+              Text('用户名称: ${user.name}'),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+```
+
+### 集合数据 List Data
+
+```dart
+late PDLoadState<List<String>> _listLoadState;
+
+void _fetchList() {
+  _listLoadState.loading();
+  Future.delayed(const Duration(seconds: 2), () {
+    _listLoadState.success(data: ['商品A', '商品B', '商品C']);
+  });
+}
+
+PDLoadStateLayout<List<String>>(
+  loadState: _listLoadState,
+  dataBuilder: (context, items) {
+    if (items == null || items.isEmpty) {
+      return const Text('列表为空');
+    }
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) => ListTile(title: Text(items[index])),
+    );
+  },
+)
+```
+
+### 向后兼容 Backward Compatibility
+
+旧 API 无需修改即可继续使用：
+
+```dart
+// 旧写法（仍然有效）
+PDLoadStateLayout(
+  loadState: loadState,
+  builder: (context) => MyContentWidget(),
+)
+
+// 新写法（带数据）
+PDLoadStateLayout<User>(
+  loadState: loadState,
+  dataBuilder: (context, user) => UserProfile(user: user),
+)
+```
+
+更多示例请参考 `/example/lib/data_demo.dart` 文件。
+
+For more examples, please refer to the `/example/lib/data_demo.dart` file.
 
 ## 支持和社区 Support and Community
 

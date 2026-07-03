@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:pd_load_state/pd_load_state.dart';
 import 'platform_demo.dart';
+import 'data_demo.dart';
 
 void main() {
   /// 初始化加载的各个状态页面UI
@@ -130,6 +131,18 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.data_object),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const DataDemoPage(),
+                ),
+              );
+            },
+            tooltip: '数据携带演示',
+          ),
           IconButton(
             icon: const Icon(Icons.devices),
             onPressed: () {
