@@ -4,7 +4,18 @@ import 'package:pd_load_state/src/config/pd_load_state_configure.dart';
 import 'package:pd_load_state/src/i18n/pd_load_state_localizations.dart';
 import 'package:pd_load_state/src/utils/accessibility_utils.dart';
 
+/// 增强版加载状态视图组件集合，提供现代化的动画和渐变效果。
+///
+/// 包含加载中、空数据、错误、完成、初始空闲和离线等状态的增强版视图。
+/// 支持深色模式适配、国际化文本和丰富的动画效果。
+///
+/// 当 [PDLoadStateConfigure.useEnhancedUI] 为 `true` 时使用此类。
 class PDLoadStateEnhancedWidgets {
+  /// 创建增强版视图组件实例。
+  ///
+  /// [backgroundColor] 是背景颜色，默认为透明。
+  /// [errorRetry] 是错误和离线状态重试按钮的回调函数。
+  /// [errorMessage] 是错误提示信息，默认为全局配置的默认错误文本。
   PDLoadStateEnhancedWidgets({
     Color? backgroundColor,
     this.errorRetry,
@@ -12,12 +23,18 @@ class PDLoadStateEnhancedWidgets {
   })  : backgroundColor = backgroundColor ?? Colors.transparent,
         errorMessage = errorMessage ?? PDLoadStateConfigure.instance.defaultErrorText;
 
+  /// 背景颜色。
   final Color? backgroundColor;
 
+  /// 错误提示信息。
   final String errorMessage;
 
+  /// 重试按钮的回调函数。
   final VoidCallback? errorRetry;
 
+  /// 构建加载中状态视图（增强版）。
+  ///
+  /// 包含脉动动画容器、旋转加载指示器和渐变背景，支持深色模式和国际化文本。
   Widget loadingView(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final localizations = PDLoadStateLocalizations.maybeOf(context);
@@ -84,6 +101,9 @@ class PDLoadStateEnhancedWidgets {
     );
   }
 
+  /// 构建空数据状态视图（增强版）。
+  ///
+  /// 包含圆形渐变图标和副标题，支持深色模式和国际化文本。
   Widget noDateView(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final localizations = PDLoadStateLocalizations.maybeOf(context);
@@ -157,6 +177,9 @@ class PDLoadStateEnhancedWidgets {
     );
   }
 
+  /// 构建错误状态视图（增强版）。
+  ///
+  /// 包含红色渐变背景、错误图标、标题和增强版按钮，支持深色模式和国际化文本。
   Widget errorView(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final localizations = PDLoadStateLocalizations.maybeOf(context);
@@ -248,6 +271,9 @@ class PDLoadStateEnhancedWidgets {
     );
   }
 
+  /// 构建完成状态视图（增强版）。
+  ///
+  /// 包含绿色渐变背景和成功图标，支持深色模式和国际化文本。
   Widget completionView(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final localizations = PDLoadStateLocalizations.maybeOf(context);
@@ -312,6 +338,9 @@ class PDLoadStateEnhancedWidgets {
     );
   }
 
+  /// 构建初始空闲状态视图（增强版）。
+  ///
+  /// 包含圆形渐变背景和沙漏图标，支持深色模式和国际化文本。
   Widget idleView(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final localizations = PDLoadStateLocalizations.maybeOf(context);
@@ -376,6 +405,9 @@ class PDLoadStateEnhancedWidgets {
     );
   }
 
+  /// 构建离线状态视图（增强版）。
+  ///
+  /// 包含橙色渐变背景、离线图标、标题和增强版按钮，支持深色模式和国际化文本。
   Widget offlineView(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final localizations = PDLoadStateLocalizations.maybeOf(context);
@@ -460,17 +492,26 @@ class PDLoadStateEnhancedWidgets {
   }
 }
 
+/// 脉动动画容器组件，使子组件产生周期性缩放效果。
 class _PulsingContainer extends StatefulWidget {
+  /// 创建脉动动画容器。
+  ///
+  /// [child] 是要应用脉动效果的子组件。
   const _PulsingContainer({required this.child});
 
+  /// 要应用脉动效果的子组件。
   final Widget child;
 
   @override
   _PulsingContainerState createState() => _PulsingContainerState();
 }
 
+/// [_PulsingContainer] 的状态类。
 class _PulsingContainerState extends State<_PulsingContainer> with SingleTickerProviderStateMixin {
+  /// 动画控制器。
   late AnimationController _controller;
+
+  /// 缩放动画。
   late Animation<double> _animation;
 
   @override
@@ -506,12 +547,15 @@ class _PulsingContainerState extends State<_PulsingContainer> with SingleTickerP
   }
 }
 
+/// 旋转加载指示器组件，展示旋转渐变动画。
 class _RotatingLoadingIndicator extends StatefulWidget {
   @override
   _RotatingLoadingIndicatorState createState() => _RotatingLoadingIndicatorState();
 }
 
+/// [_RotatingLoadingIndicator] 的状态类。
 class _RotatingLoadingIndicatorState extends State<_RotatingLoadingIndicator> with SingleTickerProviderStateMixin {
+  /// 动画控制器。
   late AnimationController _controller;
 
   @override
@@ -559,19 +603,29 @@ class _RotatingLoadingIndicatorState extends State<_RotatingLoadingIndicator> wi
   }
 }
 
+/// 淡入淡出文本组件，产生周期性透明度变化效果。
 class _FadingText extends StatefulWidget {
+  /// 创建淡入淡出文本组件。
+  ///
+  /// [text] 是要显示的文本内容，[style] 是文本样式。
   const _FadingText({required this.text, required this.style});
 
+  /// 要显示的文本内容。
   final String text;
 
+  /// 文本样式。
   final TextStyle style;
 
   @override
   _FadingTextState createState() => _FadingTextState();
 }
 
+/// [_FadingText] 的状态类。
 class _FadingTextState extends State<_FadingText> with SingleTickerProviderStateMixin {
+  /// 动画控制器。
   late AnimationController _controller;
+
+  /// 透明度动画。
   late Animation<double> _animation;
 
   @override
@@ -607,18 +661,26 @@ class _FadingTextState extends State<_FadingText> with SingleTickerProviderState
   }
 }
 
+/// 增强版按钮组件，支持按下缩放效果和渐变背景。
 class _EnhancedButton extends StatefulWidget {
+  /// 创建增强版按钮组件。
+  ///
+  /// [onPressed] 是按钮点击的回调函数，[text] 是按钮显示的文本。
   const _EnhancedButton({required this.onPressed, required this.text});
 
+  /// 按钮点击的回调函数。
   final VoidCallback? onPressed;
 
+  /// 按钮显示的文本。
   final String text;
 
   @override
   _EnhancedButtonState createState() => _EnhancedButtonState();
 }
 
+/// [_EnhancedButton] 的状态类。
 class _EnhancedButtonState extends State<_EnhancedButton> {
+  /// 是否处于按下状态。
   bool _isPressed = false;
 
   @override

@@ -1,6 +1,15 @@
 import 'package:flutter/widgets.dart';
 
+/// 无障碍辅助工具类，为加载状态视图添加语义化支持。
+///
+/// 提供各种状态的语义化包装方法，帮助屏幕阅读器正确识别和朗读加载状态视图。
+/// 支持加载中、错误、空数据、完成、初始空闲和离线等状态的语义化配置。
 class PDAccessibilityUtils {
+  /// 通用语义化包装方法。
+  ///
+  /// [child] 是要包装的子组件，[label] 是语义化标签，[value] 是语义化值，
+  /// [hint] 是语义化提示，[readOnly] 表示是否只读，[enabled] 表示是否启用，
+  /// [onTap] 是点击回调函数。
   static Widget wrapSemantics({
     required Widget child,
     String? label,
@@ -21,6 +30,9 @@ class PDAccessibilityUtils {
     );
   }
 
+  /// 加载中状态的语义化包装方法。
+  ///
+  /// [child] 是要包装的加载中视图，[label] 是加载中状态的标签文本。
   static Widget loadingSemantics({
     required Widget child,
     String? label,
@@ -33,6 +45,9 @@ class PDAccessibilityUtils {
     );
   }
 
+  /// 错误状态的语义化包装方法。
+  ///
+  /// [child] 是要包装的错误视图，[errorMessage] 是错误提示信息，[onRetry] 是重试按钮的回调函数。
   static Widget errorSemantics({
     required Widget child,
     String? errorMessage,
@@ -47,6 +62,9 @@ class PDAccessibilityUtils {
     );
   }
 
+  /// 空数据状态的语义化包装方法。
+  ///
+  /// [child] 是要包装的空数据视图，[label] 是空数据状态的标签文本。
   static Widget emptySemantics({
     required Widget child,
     String? label,
@@ -59,6 +77,9 @@ class PDAccessibilityUtils {
     );
   }
 
+  /// 完成状态的语义化包装方法。
+  ///
+  /// [child] 是要包装的完成视图，[label] 是完成状态的标签文本。
   static Widget completionSemantics({
     required Widget child,
     String? label,
@@ -71,6 +92,9 @@ class PDAccessibilityUtils {
     );
   }
 
+  /// 初始空闲状态的语义化包装方法。
+  ///
+  /// [child] 是要包装的初始空闲视图，[label] 是初始空闲状态的标签文本。
   static Widget idleSemantics({
     required Widget child,
     String? label,
@@ -83,6 +107,9 @@ class PDAccessibilityUtils {
     );
   }
 
+  /// 离线状态的语义化包装方法。
+  ///
+  /// [child] 是要包装的离线视图，[onRetry] 是重新连接按钮的回调函数。
   static Widget offlineSemantics({
     required Widget child,
     VoidCallback? onRetry,

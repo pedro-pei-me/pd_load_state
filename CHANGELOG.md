@@ -5,6 +5,24 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## 0.4.0 - 2026-07-03
+
+### 📝 文档更新 Documentation Updates
+
+- 📖 **完整文档注释** - 为所有类、函数、属性变量添加了详细的 dartdoc 文档注释
+- 📚 **API 文档完善** - 覆盖核心类（PDLoadState、PDLoadStateLayout、PDLoadStateConfigure 等）的所有公共 API
+- 📋 **类型定义文档** - 为所有 typedef 类型定义添加文档注释
+- 🔧 **私有组件文档** - 为增强版 UI 的私有动画组件添加文档注释
+- 🌍 **国际化文档** - 为 i18n 相关类添加完整的文档注释
+- ♿ **无障碍文档** - 为 PDAccessibilityUtils 工具类添加文档注释
+- 📊 **进度管理文档** - 为 PDProgressState 和 PDProgressController 添加文档注释
+
+### 🔧 改进优化 Improvements
+
+- ✨ **代码可维护性** - 完善的文档注释提升了代码的可读性和可维护性
+- 🎯 **开发者体验** - 完整的 API 文档支持 IDE 自动补全和文档提示
+- 📦 **发布准备** - 文档覆盖率达到 100%，满足 pub.dev 发布要求
+
 ## 0.3.0 - 2026-07-03
 
 ### 🎯 新增功能 New Features

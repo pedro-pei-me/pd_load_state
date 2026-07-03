@@ -9,22 +9,58 @@ import 'package:pd_load_state/src/core/pd_load_state_enum.dart';
 import 'package:pd_load_state/src/ui/pd_load_state_enhanced_widgets.dart';
 import 'package:pd_load_state/src/ui/pd_load_state_widget.dart';
 
+/// 状态变化回调的类型定义。
+///
+/// [stateEnum] 是当前的状态枚举值。
 typedef PDLoadStateChanged = void Function(
   PDLoadStateEnum stateEnum,
 );
 
+/// 带数据的视图构建器类型定义。
+///
+/// [context] 是当前的 BuildContext，[data] 是携带的业务数据。
 typedef PDDataWidgetBuilder<T> = Widget Function(
   BuildContext context,
   T? data,
 );
 
+/// 进度视图构建器的类型定义。
+///
+/// [context] 是当前的 BuildContext，[current] 是当前进度值，[total] 是总进度值。
 typedef PDProgressWidgetBuilder = Widget Function(
   BuildContext context,
   int current,
   int total,
 );
 
+/// 加载状态布局组件，根据 [PDLoadState] 的状态自动切换显示不同的 UI 视图。
+///
+/// 支持泛型数据携带，可在成功状态时通过 [dataBuilder] 获取业务数据。
+/// 提供丰富的自定义选项，包括各状态的视图构建器、回调函数和样式配置。
+///
+/// 使用 [AnimatedSwitcher] 实现状态切换时的平滑过渡动画。
+///
+/// 示例：
+/// ```dart
+/// // 基础用法（不带数据）
+/// PDLoadStateLayout(
+///   loadState: loadState,
+///   onLoading: () => fetchData(),
+///   builder: (context) => MyContentWidget(),
+/// )
+///
+/// // 带数据的用法
+/// PDLoadStateLayout<User>(
+///   loadState: loadState,
+///   onLoading: () => fetchUser(),
+///   dataBuilder: (context, user) => UserProfile(user: user),
+/// )
+/// ```
 class PDLoadStateLayout<T> extends StatefulWidget {
+  /// 创建加载状态布局组件。
+  ///
+  /// [loadState] 是必须的状态管理对象，用于控制组件的状态切换。
+  /// [builder] 和 [dataBuilder] 必须提供其中一个，用于构建成功状态的内容视图。
   const PDLoadStateLayout({
     super.key,
     required this.loadState,
@@ -51,55 +87,87 @@ class PDLoadStateLayout<T> extends StatefulWidget {
     this.progressBuilder,
   }) : assert(builder != null || dataBuilder != null, 'builder 或 dataBuilder 必须提供一个');
 
+  /// 状态管理对象，控制组件的状态切换。
   final PDLoadState<T> loadState;
 
+  /// 成功状态的内容视图构建器（不带数据）。
+  ///
+  /// 与 [dataBuilder] 互斥，优先级低于 [dataBuilder]。
   final WidgetBuilder? builder;
 
+  /// 成功状态的内容视图构建器（带数据）。
+  ///
+  /// 支持泛型数据，当状态成功时会将携带的数据传递给此构建器。
   final PDDataWidgetBuilder<T>? dataBuilder;
 
+  /// 状态变化时的回调函数。
   final PDLoadStateChanged? onStateChanged;
 
+  /// 错误状态重试按钮的回调函数。
   final VoidCallback? onErrorRetry;
 
+  /// 错误状态的自定义视图构建器。
   final PDErrorWidgetBuilder? errorWidgetBuilder;
 
+  /// 空数据状态的自定义视图构建器。
   final WidgetBuilder? emptyWidgetBuilder;
 
+  /// 加载状态开始时的回调函数。
   final VoidCallback? onLoading;
 
+  /// 加载状态的自定义视图构建器。
   final WidgetBuilder? loadingWidgetBuilder;
 
+  /// 完成状态的自定义视图构建器。
   final WidgetBuilder? completionWidgetBuilder;
 
+  /// 初始空闲状态的自定义视图构建器。
   final WidgetBuilder? idleWidgetBuilder;
 
+  /// 初始空闲状态开始时的回调函数。
   final VoidCallback? onIdle;
 
+  /// 离线状态的自定义视图构建器。
   final WidgetBuilder? offlineWidgetBuilder;
 
+  /// 离线状态重试按钮的回调函数。
+  ///
+  /// 如果未提供，将使用 [onErrorRetry]。
   final VoidCallback? onOfflineRetry;
 
+  /// 容器的背景颜色。
   final Color? backgroundColor;
 
+  /// 容器的宽度。
   final double? width;
 
+  /// 容器的高度。
   final double? height;
 
+  /// 容器的内边距。
   final EdgeInsets? padding;
 
+  /// 容器的外边距。
   final EdgeInsets? margin;
 
+  /// 状态切换动画的持续时间。
   final Duration transitionDuration;
 
+  /// 状态切换动画的构建器。
+  ///
+  /// 如果未提供，将使用默认的淡入淡出 + 滑动动画。
   final AnimatedSwitcherTransitionBuilder? transitionBuilder;
 
+  /// 进度视图构建器，用于显示加载进度。
   final PDProgressWidgetBuilder? progressBuilder;
 
   @override
   State<PDLoadStateLayout<T>> createState() => _PDLoadStateLayoutState<T>();
 }
 
+/// [PDLoadStateLayout] 的状态类。
 class _PDLoadStateLayoutState<T> extends State<PDLoadStateLayout<T>> {
+  /// 状态广播的订阅对象。
   late StreamSubscription<PDLoadStateBase> _subscription;
 
   @override
@@ -128,6 +196,7 @@ class _PDLoadStateLayoutState<T> extends State<PDLoadStateLayout<T>> {
     super.dispose();
   }
 
+  /// 构建加载中状态视图。
   Widget _buildLoadingWidget(BuildContext context) {
     final config = PDLoadStateConfigure.instance;
     if (widget.progressBuilder != null &&
@@ -152,6 +221,7 @@ class _PDLoadStateLayoutState<T> extends State<PDLoadStateLayout<T>> {
     ).loadingView(context);
   }
 
+  /// 构建空数据状态视图。
   Widget _buildEmptyWidget(BuildContext context) {
     final config = PDLoadStateConfigure.instance;
     if (config.emptyWidgetBuilder != null) {
@@ -167,6 +237,7 @@ class _PDLoadStateLayoutState<T> extends State<PDLoadStateLayout<T>> {
     ).noDateView(context);
   }
 
+  /// 构建错误状态视图。
   Widget _buildErrorWidget(BuildContext context, String? errorMessage, VoidCallback? onRetry) {
     final config = PDLoadStateConfigure.instance;
     if (config.errorWidgetBuilder != null) {
@@ -190,6 +261,7 @@ class _PDLoadStateLayoutState<T> extends State<PDLoadStateLayout<T>> {
     ).errorView(context);
   }
 
+  /// 构建完成状态视图。
   Widget _buildCompletionWidget(BuildContext context) {
     final config = PDLoadStateConfigure.instance;
     if (config.completionWidgetBuilder != null) {
@@ -205,6 +277,7 @@ class _PDLoadStateLayoutState<T> extends State<PDLoadStateLayout<T>> {
     ).completionView(context);
   }
 
+  /// 构建初始空闲状态视图。
   Widget _buildIdleWidget(BuildContext context) {
     final config = PDLoadStateConfigure.instance;
     if (config.idleWidgetBuilder != null) {
@@ -220,6 +293,7 @@ class _PDLoadStateLayoutState<T> extends State<PDLoadStateLayout<T>> {
     ).idleView(context);
   }
 
+  /// 构建离线状态视图。
   Widget _buildOfflineWidget(BuildContext context, String? errorMessage, VoidCallback? onRetry) {
     final config = PDLoadStateConfigure.instance;
     if (config.offlineWidgetBuilder != null) {
@@ -239,6 +313,7 @@ class _PDLoadStateLayoutState<T> extends State<PDLoadStateLayout<T>> {
     ).offlineView(context);
   }
 
+  /// 根据当前状态构建对应的内容视图。
   Widget _buildContent(BuildContext context) {
     final status = widget.loadState.status;
 

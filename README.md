@@ -28,7 +28,7 @@ To use this package, add the following to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  pd_load_state: ^0.3.0
+  pd_load_state: ^0.4.0
 ```
 
 执行 implement
@@ -326,6 +326,165 @@ PDLoadStateLayout<User>(
 更多示例请参考 `/example/lib/data_demo.dart` 文件。
 
 For more examples, please refer to the `/example/lib/data_demo.dart` file.
+
+## API 文档 API Documentation
+
+### 核心类 Core Classes
+
+#### PDLoadState\<T\>
+
+支持泛型数据携带的加载状态管理类。
+
+- `PDLoadState(String id, {PDLoadStateEnum? stateEnum, bool? isRefreshSubviews})` - 创建状态实例
+- `data` - 当前携带的业务数据
+- `loading()` - 设置为加载中状态
+- `success({T? data})` - 设置为成功状态并携带数据
+- `error({String? msg})` - 设置为错误状态
+- `empty()` - 设置为空数据状态
+- `completion()` - 设置为完成状态
+- `idle()` - 设置为初始空闲状态
+- `offline()` - 设置为离线状态
+- `loadingWithProgress(int current, int total, [String? message])` - 设置为加载中并显示进度
+- `updateProgress(int current, [int? total, String? message])` - 更新进度值
+
+#### PDLoadStateLayout\<T\>
+
+加载状态布局组件，根据状态自动切换显示不同的 UI 视图。
+
+- `loadState` - 状态管理对象（必填）
+- `builder` - 成功状态的内容视图构建器（不带数据）
+- `dataBuilder` - 成功状态的内容视图构建器（带数据）
+- `onLoading` - 加载状态开始时的回调
+- `onErrorRetry` - 错误状态重试按钮的回调
+- `onOfflineRetry` - 离线状态重试按钮的回调
+- `loadingWidgetBuilder` - 加载状态的自定义视图构建器
+- `errorWidgetBuilder` - 错误状态的自定义视图构建器
+- `emptyWidgetBuilder` - 空数据状态的自定义视图构建器
+- `completionWidgetBuilder` - 完成状态的自定义视图构建器
+- `idleWidgetBuilder` - 初始空闲状态的自定义视图构建器
+- `offlineWidgetBuilder` - 离线状态的自定义视图构建器
+- `progressBuilder` - 进度视图构建器
+- `transitionDuration` - 状态切换动画的持续时间
+- `transitionBuilder` - 状态切换动画的构建器
+
+#### PDLoadStateConfigure
+
+全局配置类，用于统一配置所有加载状态组件的默认行为和样式。
+
+- `instance` - 获取全局配置单例
+- `backgroundColor` - 全局背景颜色
+- `defaultLoadingText` - 加载中状态的默认文本
+- `defaultErrorText` - 错误状态的默认文本
+- `defaultEmptyText` - 空数据状态的默认文本
+- `defaultCompletionText` - 完成状态的默认文本
+- `defaultIdleText` - 初始空闲状态的默认文本
+- `defaultOfflineText` - 离线状态的默认文本
+- `useEnhancedUI` - 是否启用增强版 UI
+- `loadingWidgetBuilder` - 全局加载中视图构建器
+- `errorWidgetBuilder` - 全局错误视图构建器
+- `emptyWidgetBuilder` - 全局空数据视图构建器
+- `completionWidgetBuilder` - 全局完成视图构建器
+- `idleWidgetBuilder` - 全局初始空闲视图构建器
+- `offlineWidgetBuilder` - 全局离线视图构建器
+
+### 状态枚举 State Enum
+
+#### PDLoadStateEnum
+
+定义了所有可能的 UI 状态：
+
+- `success` - 请求成功状态
+- `error` - 请求失败状态
+- `loading` - 加载中状态
+- `empty` - 空数据状态
+- `reload` - 重新加载状态
+- `completion` - 操作完成状态
+- `idle` - 初始空闲状态
+- `offline` - 离线状态
+
+#### PDLoadStateEnumExtension
+
+提供便捷的状态判断和描述获取：
+
+- `description` - 获取状态的中文描述
+- `isLoading` - 判断是否为加载中
+- `isSuccess` - 判断是否为成功
+- `isError` - 判断是否为错误
+- `isEmpty` - 判断是否为空数据
+- `isCompletion` - 判断是否为完成
+- `isIdle` - 判断是否为初始空闲
+- `isOffline` - 判断是否为离线
+- `isFinalState` - 判断是否为终态
+
+### 国际化 Internationalization
+
+#### PDLoadStateLocalizations
+
+加载状态组件的国际化抽象基类，支持中文和英文。
+
+- `loading` - 加载中状态的文本
+- `error` - 错误状态的文本
+- `errorButton` - 错误状态重试按钮的文本
+- `errorTitle` - 错误状态的标题文本
+- `empty` - 空数据状态的文本
+- `emptySubtitle` - 空数据状态的副标题文本
+- `completion` - 完成状态的文本
+- `idle` - 初始空闲状态的文本
+- `offline` - 离线状态的文本
+- `offlineButton` - 离线状态重试按钮的文本
+- `offlineTitle` - 离线状态的标题文本
+
+#### PDLoadStateLocalizationsDelegate
+
+国际化代理类，用于加载和管理国际化资源。
+
+### 工具类 Utility Classes
+
+#### PDAccessibilityUtils
+
+无障碍辅助工具类，为加载状态视图添加语义化支持。
+
+- `loadingSemantics()` - 加载中状态的语义化包装
+- `errorSemantics()` - 错误状态的语义化包装
+- `emptySemantics()` - 空数据状态的语义化包装
+- `completionSemantics()` - 完成状态的语义化包装
+- `idleSemantics()` - 初始空闲状态的语义化包装
+- `offlineSemantics()` - 离线状态的语义化包装
+
+#### PDProgressState / PDProgressController
+
+进度管理类，用于管理任务进度。
+
+- `current` - 当前进度值
+- `total` - 总进度值
+- `progress` - 进度百分比（0.0 ~ 1.0）
+- `update()` - 更新进度值
+- `reset()` - 重置进度到初始状态
+- `complete()` - 完成进度
+
+## 状态视图组件 State Widgets
+
+### PDLoadStateDefaultWidgets
+
+默认加载状态视图组件集合，提供各状态的基础 UI 实现。
+
+- `loadingView()` - 加载中状态视图
+- `noDateView()` - 空数据状态视图
+- `errorView()` - 错误状态视图
+- `completionView()` - 完成状态视图
+- `idleView()` - 初始空闲状态视图
+- `offlineView()` - 离线状态视图
+
+### PDLoadStateEnhancedWidgets
+
+增强版加载状态视图组件集合，提供现代化的动画和渐变效果。
+
+- `loadingView()` - 加载中状态视图（增强版）
+- `noDateView()` - 空数据状态视图（增强版）
+- `errorView()` - 错误状态视图（增强版）
+- `completionView()` - 完成状态视图（增强版）
+- `idleView()` - 初始空闲状态视图（增强版）
+- `offlineView()` - 离线状态视图（增强版）
 
 ## 支持和社区 Support and Community
 
