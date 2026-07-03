@@ -83,6 +83,7 @@ class _PlatformDemoPageState extends State<PlatformDemoPage> {
 
   /// 模拟加载平台特定数据
   void _loadPlatformData() {
+    debugPrint('[Platform] _loadPlatformData: 开始加载平台数据');
     _loadState.loading();
 
     // 模拟不同平台的加载时间
@@ -91,6 +92,7 @@ class _PlatformDemoPageState extends State<PlatformDemoPage> {
     Future.delayed(loadingDuration, () {
       if (mounted) {
         _loadState.success();
+        debugPrint('[Platform] _loadPlatformData: 加载成功, 平台=$_platformInfo');
       }
     });
   }
@@ -108,23 +110,21 @@ class _PlatformDemoPageState extends State<PlatformDemoPage> {
 
   /// 获取平台特定的配置
   void _configurePlatformSpecificUI() {
+    debugPrint('[Platform] _configurePlatformSpecificUI: 配置平台特定UI, 平台=$_platformInfo');
     if (kIsWeb) {
-      // Web 平台配置
       PDLoadStateConfigure.instance.backgroundColor = Colors.blue.shade50;
       PDLoadStateConfigure.instance.defaultLoadingText = '正在从服务器加载...';
     } else if (Platform.isAndroid) {
-      // Android 平台配置
       PDLoadStateConfigure.instance.backgroundColor = Colors.green.shade50;
       PDLoadStateConfigure.instance.defaultLoadingText = '正在加载数据...';
     } else if (Platform.isIOS) {
-      // iOS 平台配置
       PDLoadStateConfigure.instance.backgroundColor = Colors.grey.shade100;
       PDLoadStateConfigure.instance.defaultLoadingText = '载入中...';
     } else {
-      // 桌面端配置
       PDLoadStateConfigure.instance.backgroundColor = Colors.purple.shade50;
       PDLoadStateConfigure.instance.defaultLoadingText = '正在处理请求...';
     }
+    debugPrint('[Platform] _configurePlatformSpecificUI: 配置完成');
   }
 
   @override
@@ -296,9 +296,11 @@ class _PlatformDemoPageState extends State<PlatformDemoPage> {
     return [
       ElevatedButton.icon(
         onPressed: () {
+          debugPrint('[Platform] Web: 点击模拟网络请求');
           _loadState.loading();
           Future.delayed(const Duration(seconds: 2), () {
             _loadState.success();
+            debugPrint('[Platform] Web: 网络请求完成');
           });
         },
         icon: const Icon(Icons.cloud_download),
@@ -307,6 +309,7 @@ class _PlatformDemoPageState extends State<PlatformDemoPage> {
       const SizedBox(height: 8),
       OutlinedButton.icon(
         onPressed: () {
+          debugPrint('[Platform] Web: 点击模拟网络错误');
           _loadState.error(msg: '网络连接超时，请检查网络设置');
         },
         icon: const Icon(Icons.wifi_off),
@@ -320,9 +323,11 @@ class _PlatformDemoPageState extends State<PlatformDemoPage> {
     return [
       ElevatedButton.icon(
         onPressed: () {
+          debugPrint('[Platform] Mobile: 点击触摸加载');
           _loadState.loading();
           Future.delayed(const Duration(milliseconds: 800), () {
             _loadState.success();
+            debugPrint('[Platform] Mobile: 触摸加载完成');
           });
         },
         icon: const Icon(Icons.touch_app),
@@ -331,6 +336,7 @@ class _PlatformDemoPageState extends State<PlatformDemoPage> {
       const SizedBox(height: 8),
       OutlinedButton.icon(
         onPressed: () {
+          debugPrint('[Platform] Mobile: 点击模拟离线状态');
           _loadState.empty();
         },
         icon: const Icon(Icons.mobile_off),
@@ -344,9 +350,11 @@ class _PlatformDemoPageState extends State<PlatformDemoPage> {
     return [
       ElevatedButton.icon(
         onPressed: () {
+          debugPrint('[Platform] Desktop: 点击桌面端处理');
           _loadState.loading();
           Future.delayed(const Duration(seconds: 1), () {
             _loadState.completion();
+            debugPrint('[Platform] Desktop: 桌面端处理完成');
           });
         },
         icon: const Icon(Icons.desktop_windows),
@@ -355,6 +363,7 @@ class _PlatformDemoPageState extends State<PlatformDemoPage> {
       const SizedBox(height: 8),
       OutlinedButton.icon(
         onPressed: () {
+          debugPrint('[Platform] Desktop: 点击模拟权限错误');
           _loadState.error(msg: '桌面端特定错误：权限不足');
         },
         icon: const Icon(Icons.security),

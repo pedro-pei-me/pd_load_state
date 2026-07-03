@@ -46,35 +46,39 @@ class _DataDemoPageState extends State<DataDemoPage> {
   }
 
   void _fetchUserData() {
+    debugPrint('[DataDemo] _fetchUserData: 开始获取用户数据');
     _userLoadState.loading();
 
     Future.delayed(const Duration(seconds: 2), () {
       final random = Random();
       if (random.nextBool()) {
-        _userLoadState.success(
-          data: User(
-            id: '1',
-            name: '张三',
-            email: 'zhangsan@example.com',
-          ),
+        final user = User(
+          id: '1',
+          name: '张三',
+          email: 'zhangsan@example.com',
         );
+        _userLoadState.success(data: user);
+        debugPrint('[DataDemo] _fetchUserData: 获取成功, user=${user.name}');
       } else {
         _userLoadState.error(msg: '获取用户信息失败');
+        debugPrint('[DataDemo] _fetchUserData: 获取失败');
       }
     });
   }
 
   void _fetchListData() {
+    debugPrint('[DataDemo] _fetchListData: 开始获取列表数据');
     _listLoadState.loading();
 
     Future.delayed(const Duration(seconds: 1), () {
       final random = Random();
       if (random.nextBool()) {
-        _listLoadState.success(
-          data: ['商品A', '商品B', '商品C', '商品D', '商品E'],
-        );
+        final data = ['商品A', '商品B', '商品C', '商品D', '商品E'];
+        _listLoadState.success(data: data);
+        debugPrint('[DataDemo] _fetchListData: 获取成功, 数据量=${data.length}');
       } else {
         _listLoadState.empty();
+        debugPrint('[DataDemo] _fetchListData: 空数据');
       }
     });
   }
