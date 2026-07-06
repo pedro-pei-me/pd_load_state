@@ -5,6 +5,31 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## 1.1.0 - 2026-07-06
+
+### 📖 文档重构 Documentation Refactoring
+
+- 📁 **文档拆分** - 将 README.md 中的详细使用说明拆分为独立文档，放置在 `doc/` 目录
+- 📋 **新文档文件** - 新增 6 个功能模块文档：
+  - `basic_usage.md` - 基本使用指南
+  - `data_generics.md` - 泛型数据携带
+  - `api_reference.md` - API 完整文档
+  - `configuration.md` - 全局配置
+  - `i18n.md` - 国际化支持
+  - `enhanced_ui.md` - 增强版 UI
+- ✨ **README 精简** - README.md 精简为 93 行，仅保留核心信息，作为 pub.dev 首页展示
+- 🔗 **文档链接** - README.md 添加完整的文档目录链接，方便用户快速导航
+
+### 📦 版本升级 Version Upgrade
+
+- 🏷️ **版本号更新** - 升级到 1.1.0
+- ✅ **向后兼容** - 所有 API 完全向后兼容
+
+### 🧪 测试验证 Testing Verification
+
+- ✅ **测试覆盖率** - 84 个单元测试全部通过
+- ✅ **代码质量** - 通过 `flutter analyze` 检查，核心库无错误
+
 ## 1.0.0 - 2026-07-06
 
 ### 🎉 正式发布 Major Release
