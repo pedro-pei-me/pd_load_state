@@ -5,6 +5,41 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## 1.0.0 - 2026-07-06
+
+### 🎉 正式发布 Major Release
+
+- ✨ **版本升级** - 插件正式升级到 1.0.0 版本，API 稳定且完整
+- 🔐 **向后兼容** - 所有旧版本 API 完全兼容，无需修改现有代码
+
+### 🧪 测试覆盖 Testing Coverage
+
+- 📊 **完整单元测试** - 添加了 84 个单元测试，覆盖所有核心功能：
+  - `pd_load_state_enum_test.dart` - 枚举扩展方法测试（9个）
+  - `pd_load_state_base_test.dart` - 状态转换测试（14个）
+  - `pd_load_state_test.dart` - 泛型数据携带测试（11个）
+  - `pd_load_state_manager_test.dart` - Stream 生命周期测试（7个）
+  - `pd_load_state_configure_test.dart` - 全局配置测试（8个）
+  - `pd_progress_state_test.dart` - 进度管理测试（15个）
+  - `pd_load_state_layout_test.dart` - Widget 渲染测试（20个）
+- ✅ **测试通过率** - 所有 84 个测试全部通过
+- 🛡️ **代码质量** - 通过 `flutter analyze` 和 `flutter_lints` 检查
+
+### 📋 发布准备 Release Preparation
+
+- 🏷️ **版本号更新** - `pubspec.yaml` 版本升级到 1.0.0
+- 📌 **分类标签** - 添加 `topics` 字段（state-management、loading、ui、flutter-plugin）
+- 🔗 **链接完善** - 添加 `issue_tracker` 字段，完善 `homepage` 和 `repository` 链接
+- 📖 **文档同步** - 更新 README.md 和库注释中的版本引用
+- 🌐 **国际化支持** - 完善中文/英文国际化文档
+
+### 📦 API 稳定性 API Stability
+
+- 🎯 **核心类稳定** - `PDLoadState<T>`、`PDLoadStateLayout<T>`、`PDLoadStateConfigure` 接口稳定
+- ⚡ **泛型支持** - 完整的泛型数据携带能力，支持强类型数据传递
+- 🌍 **国际化** - 完善的 i18n 支持，支持中文和英文
+- ♿ **无障碍** - 完整的语义化支持，提升可访问性
+
 ## 0.4.0 - 2026-07-03
 
 ### 📝 文档更新 Documentation Updates

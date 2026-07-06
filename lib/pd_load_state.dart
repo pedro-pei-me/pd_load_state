@@ -22,7 +22,7 @@
 /// 添加到你的 `pubspec.yaml`：
 /// ```yaml
 /// dependencies:
-///   pd_load_state: ^0.2.3
+///   pd_load_state: ^1.0.0
 /// ```
 ///
 /// ## 使用示例
