@@ -1,20 +1,20 @@
 # pd_load_state
 
-Flutter 网络请求状态 UI 管理插件，支持加载中、错误、空数据、成功等多种状态的优雅切换。
+[中文](README_CN.md) | [English](README.md)
 
-This is a Flutter plugin for managing network request UI states (loading/error/empty/success) with enhanced UI and multi-platform support.
+A Flutter plugin for managing network request UI states (loading/error/empty/success) with enhanced UI, multi-platform support and generic data carrying.
 
-## ✨ 功能特性 Features
+## ✨ Features
 
-- 🎨 **增强版 UI** - 现代化加载动画、渐变效果、流畅状态转换
-- 📱 **多平台支持** - 完美适配 Android、iOS、Web、macOS、Windows、Linux
-- ⚡ **轻量高效** - 简洁 API 设计，快速集成
-- 📦 **泛型数据携带** - 强类型数据传递，成功状态直接携带业务数据
-- 🌐 **国际化支持** - 内置中文/英文，支持自定义多语言
-- 🔧 **全局配置** - 统一配置默认行为和样式
-- 🎯 **无障碍支持** - 完整的语义化标签支持
+- 🎨 **Enhanced UI** - Modern loading animations, gradient effects, smooth state transitions
+- 📱 **Multi-platform Support** - Perfectly compatible with Android, iOS, Web, macOS, Windows, Linux
+- ⚡ **Lightweight & Efficient** - Simple API design for quick integration
+- 📦 **Generic Data Carrying** - Strongly-typed data transfer, carry business data directly in success state
+- 🌐 **Internationalization** - Built-in Chinese/English support with custom multi-language support
+- 🔧 **Global Configuration** - Unified configuration for default behavior and styles
+- 🎯 **Accessibility Support** - Complete semantic label support
 
-## 📦 安装 Installation
+## 📦 Installation
 
 ```yaml
 dependencies:
@@ -25,7 +25,7 @@ dependencies:
 flutter pub get
 ```
 
-## 🚀 快速开始 Quick Start
+## 🚀 Quick Start
 
 ```dart
 import 'package:pd_load_state/pd_load_state.dart';
@@ -57,36 +57,36 @@ class _SimpleExampleState extends State<SimpleExample> {
 }
 ```
 
-## 📖 文档 Documentation
+## 📖 Documentation
 
-详细文档请参考 [doc/](doc/) 目录：
+Refer to the [doc/](doc/) directory for detailed documentation:
 
-| 文档                                     | 说明         |
-| ---------------------------------------- | ------------ |
-| [basic_usage.md](doc/basic_usage.md)     | 基本使用指南 |
-| [data_generics.md](doc/data_generics.md) | 泛型数据携带 |
-| [api_reference.md](doc/api_reference.md) | API 完整文档 |
-| [configuration.md](doc/configuration.md) | 全局配置     |
-| [i18n.md](doc/i18n.md)                   | 国际化支持   |
-| [enhanced_ui.md](doc/enhanced_ui.md)     | 增强版 UI    |
+| Document                                 | Description                |
+| ---------------------------------------- | -------------------------- |
+| [basic_usage.md](doc/basic_usage.md)     | Basic Usage Guide          |
+| [data_generics.md](doc/data_generics.md) | Generic Data Carrying      |
+| [api_reference.md](doc/api_reference.md) | Complete API Documentation |
+| [configuration.md](doc/configuration.md) | Global Configuration       |
+| [i18n.md](doc/i18n.md)                   | Internationalization       |
+| [enhanced_ui.md](doc/enhanced_ui.md)     | Enhanced UI                |
 
-## 📱 示例 Example
+## 📱 Example
 
-更多示例代码请参考 `/example/lib/` 目录：
+For more example code, refer to the `/example/lib/` directory:
 
-- `basic_demo.dart` - 基础用法
-- `data_demo.dart` - 数据携带
-- `config_demo.dart` - 配置演示
-- `i18n_demo.dart` - 国际化
-- `animation_demo.dart` - 动画效果
-- `platform_demo.dart` - 平台适配
+- `basic_demo.dart` - Basic usage
+- `data_demo.dart` - Data carrying
+- `config_demo.dart` - Configuration demonstration
+- `i18n_demo.dart` - Internationalization
+- `animation_demo.dart` - Animation effects
+- `platform_demo.dart` - Platform adaptation
 
-## 🤝 支持与社区 Support and Community
+## 🤝 Support and Community
 
 - [Gitee Repository](https://gitee.com/pedro-labs/pd_load_state)
 - [GitHub Repository](https://github.com/pedro-pei-me/pd_load_state)
 - [pub.dev Package](https://pub.dev/packages/pd_load_state)
 
-## 📄 许可证 License
+## 📄 License
 
 [MIT License](LICENSE)
