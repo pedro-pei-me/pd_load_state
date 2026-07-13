@@ -5,6 +5,20 @@ This document records all important changes to the pd_load_state plugin.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.1
+
+Release date: 2026-07-13
+
+### 📖 Documentation Improvements
+
+- 📝 **English Documentation** - Updated all documentation to English:
+  - `README.md` - Full English translation
+  - `CHANGELOG.md` - Full English translation with unified date format
+  - `lib/pd_load_state.dart` - Library documentation comments translated to English
+- 📅 **Date Format Unification** - All release dates formatted on separate lines
+- 🏷️ **Version Number Update** - Updated version references in documentation
+- ✅ **Backward Compatibility** - No API changes, documentation-only update
+
 ## 1.1.0
 
 Release date: 2026-07-06

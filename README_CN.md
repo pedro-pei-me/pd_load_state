@@ -20,7 +20,7 @@ This is a Flutter plugin for managing network request UI states (loading/error/e
 
 ```yaml
 dependencies:
-  pd_load_state: ^1.1.0
+  pd_load_state: ^1.1.1
 ```
 
 ```bash
